@@ -5,6 +5,8 @@ const app = express();
 const Local = "mongodb://localhost:27017/yourlance";
 const Live = 'mongodb+srv://yourlance:yourlance@atlascluster.hl7hbbc.mongodb.net';
 
+// const User = require('./modals/userSchema')
+
 const DB = Local // Replace with your MongoDB connection URL
 mongoose.connect(DB, {
 
@@ -17,22 +19,17 @@ mongoose.connect(DB, {
 }).catch((err) => console.log("not connect"))
 
 
-const Middelware = (req, res, next) => {
-    // console.log("object")
+app.use(require('./router/auth'));
 
-    next()
-}
 
-app.get('/', (req,res) =>{
-    res.send("hello")
-})
 
-app.get('/login', Middelware, (req,res) =>{
-    res.send("login")
-})
-app.get('/signup', (req,res) =>{
-    res.send("signup")
-})
+
+// app.get('/login',(req,res) =>{
+//     res.send("login")
+// })
+// app.get('/signup', (req,res) =>{
+//     res.send("signup")
+// })
 
 
 app.listen(3000, () =>{
