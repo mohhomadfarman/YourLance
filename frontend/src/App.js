@@ -1,10 +1,6 @@
 import "./App.css";
 import {
-  BrowserRouter,
-  Route,
-  Router,
   RouterProvider,
-  Routes,
   createBrowserRouter,
 } from "react-router-dom";
 import Login from "./components/Login.js";
