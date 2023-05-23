@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Field } from "react-final-form";
-import { json } from "react-router-dom";
 
-const Login = () => {
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const Register = () => {
 
   const onSubmit = (e) => {
     const newData = e;
@@ -87,4 +85,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

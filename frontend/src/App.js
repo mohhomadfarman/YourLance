@@ -3,7 +3,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import Login from "./components/Login.js";
+import Register from "./components/Register";
 
 function App() {
   const router = createBrowserRouter([
@@ -12,12 +12,12 @@ function App() {
       element: "No Page Found",
     },
     {
-      path: "/",
-      element: <Login />,
+      path: "/Register",
+      element: <Register />,
     },
     {
-      path: "/home",
-      element: "fghjk",
+      path: "/",
+      element: "Home",
     },
   ]);
   return (
