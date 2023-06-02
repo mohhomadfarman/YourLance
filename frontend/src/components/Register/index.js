@@ -1,12 +1,26 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
+import { useDispatch } from "react-redux";
+import { registerStart } from "../../redux/reducer/register";
+
+import { RegisterApi } from "../../redux/auctions/register";
 
 const Register = () => {
+  const dispatch = useDispatch();
+
+  // useEffect( ()=>{
+  //   dispatch(RegisterApi());
+
+  // },[])
 
   const onSubmit = (e) => {
+
     const newData = e;
     localStorage.setItem("myData", JSON.stringify(newData));
-    console.log(newData, "dfghjk");
+
+    dispatch(registerStart(newData));
+    dispatch(RegisterApi(newData));
+    console.log(newData)
   };
 
   return (
@@ -43,6 +57,34 @@ const Register = () => {
               </div>
             )}
           </Field>
+          <Field name="fullname">
+            {({ input, meta }) => (
+              <div>
+                <label>Full Name</label>
+                <input
+                  {...input}
+                  type="text"
+                  //   value={formData}
+                  placeholder="Username"
+                />
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </div>
+            )}
+          </Field>
+          <Field name="email">
+            {({ input, meta }) => (
+              <div>
+                <label>Email</label>
+                <input
+                  {...input}
+                  type="email"
+                  //   value={formData}
+                  placeholder="Username"
+                />
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </div>
+            )}
+          </Field>
           <Field name="password">
             {({ input, meta }) => (
               <div>
@@ -67,9 +109,7 @@ const Register = () => {
             )}
           </Field>
           <div className="buttons">
-            <button type="submit" disabled={submitting}>
-              Submit
-            </button>
+            <button type="btn">Submit</button>
             <button
               type="button"
               onClick={form.reset}
