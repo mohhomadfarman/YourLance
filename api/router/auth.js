@@ -58,30 +58,6 @@ router.post("/login", async (req, res) => {
   // console.log(Login,"dfghjkl")
   res.send(Login);
 
-  
-  // try {
-  //   // Perform login API request
-  //   const response = await fetch('/login', {
-  //     method: 'POST',
-  //     // Include login data here
-  //     body: JSON.stringify({ username, password }),
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
-
-  //   if (response.ok) {
-  //     const user = await response.json();
-  //     // Login successful, do something
-  //     res.status(200).send(Login)
-  //     res.status(200).send({successsssssssssssssssssss:true});
-  //   } else {
-  //     throw new Error('Login failed');
-  //   }
-  // } catch (error) {
-  //   res.status(400).send({ message: error.message });
-  // }
-
 }
 
 );
