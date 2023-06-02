@@ -4,6 +4,8 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import Register from "./components/Register";
+import Login from "./components/Login";
+import EmailForm from "./components/Form";
 
 function App() {
   const router = createBrowserRouter([
@@ -18,6 +20,14 @@ function App() {
     {
       path: "/",
       element: "Home",
+    },
+    {
+      path: "/Login",
+      element: <Login/>,
+    },
+    {
+      path: "/EmailSend",
+      element: <EmailForm/>,
     },
   ]);
   return (
