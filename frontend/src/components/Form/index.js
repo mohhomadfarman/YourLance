@@ -8,51 +8,63 @@ import {
   Button,
   Heading,
   Text,
-  Textarea,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import {  useNavigate } from "react-router-dom";
+// import { loginStart } from "../../redux/reducer/usersLogin";
+import { loginApi } from "../../redux/auctions/userLogin";
+import { useDispatch } from "react-redux";
 
 export default function EmailForm() {
   const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+  const [cpassword, setCpassword] = useState("");
+  const [password, setPassword] = useState("");
   const [fullname, setFullname] = useState("");
+  const [mobile, setMobile] = useState("");
   const [validate, setValidate] = useState("");
-  // const [status, setStatus] = useState(email === "" && subject === ""  && message=== ""  ? false : true);
+  const [passwordErr, setPasswordErr] = useState();
   const [status, setStatus] = useState();
-  const [otpPasscode, setOtpPasscode] = useState(
-    Math.floor(Math.random(1000 > 10000) * 9000)
-  );
+  // const [otpPasscode, setOtpPasscode] = useState();
+  const [getData, setGetData] = useState();
+
 
 
   const navigate = useNavigate();
 
-
+  const dispatch = useDispatch();
 
   useEffect(()=>{
     let Pagevalidation = JSON.parse(localStorage.getItem("OTP Status"));
     if (Pagevalidation === true) {
         navigate("/dashboard");
     }
+    // setOtpPasscode(Math.floor(Math.random(1000 > 10000) * 9000));
+
   },[navigate])
 
 
 
   const baseUrl = "http://localhost:4000";
-  console.log(otpPasscode);
   const sendEmail = async () => {
-    setStatus(email === "" && subject === "" && message === "" ? false : true);
+    setStatus(email === "" && password === "" && fullname === "" && mobile === "" ? false : true);
     let dataSend = {
       fullname: fullname,
       email: email,
-      subject: subject,
-      message: message,
-      otp: email || subject || message ? otpPasscode : "",
+      password: password === cpassword ? password : setPasswordErr("Password Not Match") || password === cpassword ? setPasswordErr(""): "" ,
+      mobile: mobile,
+      // otp: email || fullname || password || mobile ? otpPasscode : "",
       status: status,
     };
-    setOtpPasscode(Math.floor(Math.random(1000 > 10000) * 9000));
-    localStorage.setItem("data", JSON.stringify(dataSend));
+    let localStorageDB = {
+      fullname: fullname,
+      email: email,
+      password: password === cpassword ? password : setPasswordErr("Password Not Match") || password === cpassword ? setPasswordErr(""): "" ,
+      mobile: mobile,
+      status: status,
+    };
+    // setOtpPasscode(Math.floor(Math.random(1000 > 10000) * 9000));
+    
+    localStorage.setItem("data", JSON.stringify(localStorageDB));
 
     const res = await fetch(`${baseUrl}/email/sendEmail`, {
       method: "POST",
@@ -63,44 +75,84 @@ export default function EmailForm() {
       },
     })
       // HANDLING ERRORS
-      .then((res) => {
-        console.log(res);
-        if (res.status > 199 && res.status < 300) {
-          alert("Send Successfully !");
-        }
+      .then(res  => {
+        // if (response.status > 199 && response.status < 300) {
+        //   alert("Send Successfully !");
+        // }
       });
+
+      // let valueBD = {
+      //   email: email,
+      //   fullname: fullname,
+      //   mobile: mobile
+      // }
+      //   dispatch(loginApi(valueBD)).then(response => {
+      //     setGetData(response)
+      //   })
   };
+
+  // const ValidateOTP = async () => {
+  //   setStatus(email === "" && password === "" && fullname === "" && mobile === "" ? false : true);
+  //   let GetOTP = localStorage.getItem("data");
+
+  //   console.log(JSON.parse(GetOTP).otp, "fghjk");
+  //   console.log(JSON.parse(validate), "fghjk");
+
+  //   let SendOTPValidationStatus = {
+  //     otp:
+  //       JSON.parse(validate) === JSON.parse(GetOTP).otp
+  //         ? JSON.parse(validate)
+  //         : "",
+  //     status: JSON.parse(validate) === JSON.parse(GetOTP).otp ? true : false,
+  //   };
+
+  //   if (SendOTPValidationStatus.status === true) {
+  //     localStorage.setItem("OTP Status", true);
+  //     navigate("/dashboard");
+  //   }
+
+  //   const res = await fetch(`${baseUrl}/email/sendEmail`, {
+  //     method: "POST",
+  //     body: JSON.stringify(SendOTPValidationStatus),
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   let valueBD = {
+  //     email: email
+  //   }
+  //     dispatch(loginApi(valueBD)).then(response => {
+  //       setGetData(response)
+  //     })
+  //  }, []);
+ 
+
+
 
   const ValidateOTP = async () => {
-    setStatus(email === "" && subject === "" && message === "" ? false : true);
-    let GetOTP = localStorage.getItem("data");
+        setStatus(validate ? false : true);
 
-    console.log(JSON.parse(GetOTP).otp, "fghjk");
-    console.log(JSON.parse(validate), "fghjk");
-
-    let SendOTPValidationStatus = {
-      otp:
-        JSON.parse(validate) === JSON.parse(GetOTP).otp
-          ? JSON.parse(validate)
-          : "",
-      status: JSON.parse(validate) === JSON.parse(GetOTP).otp ? true : false,
+   let SendOTPValidationStatus = {
+      otp: JSON.parse(validate),
+      status:  JSON.parse(validate)?true : false,
     };
 
-    if (SendOTPValidationStatus.status === true) {
-      localStorage.setItem("OTP Status", true);
-      navigate("/dashboard");
-    }
+ 
+    dispatch(loginApi(SendOTPValidationStatus)).then(response => {
+      setGetData(response)
+      // console.log(response)
+    }) ;
 
-    const res = await fetch(`${baseUrl}/email/sendEmail`, {
-      method: "POST",
-      body: JSON.stringify(SendOTPValidationStatus),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-  };
-
+    console.log(getData.data.otp,"rghjkl")
+    if (getData.data.otp === true) {
+  localStorage.setItem("OTP Status", true);
+  navigate("/dashboard");
+}
+  }
  
 
   return (
@@ -142,29 +194,40 @@ export default function EmailForm() {
                   required
                   disabled={status ? true : false}
                   type="email"
-                  placeholder="Receiver's Email Address"
+                  placeholder="Enter Email Address"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormControl>
-              <FormControl id="email">
-                <FormLabel>Subject</FormLabel>
+              <FormControl id="mobile">
+                <FormLabel>mobile Number</FormLabel>
+                <Input
+                  required
+                  disabled={status ? true : false}
+                  type="number"
+                  placeholder="Enter Mobile Number"
+                  onChange={(e) => setMobile(e.target.value)}
+                />
+              </FormControl>
+              <FormControl id="password">
+                <FormLabel>Password</FormLabel>
                 <Input
                   disabled={status ? true : false}
-                  onChange={(e) => setSubject(e.target.value)}
-                  type="text"
-                  placeholder="Enter the subject here..."
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  placeholder="Enter the Password..."
                 />
               </FormControl>
               <FormControl id="text">
-                <FormLabel>Message</FormLabel>
-                <Textarea
+                <FormLabel>Confirm Password</FormLabel>
+                <Input
                   disabled={status ? true : false}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Enter your message here..."
+                  onChange={(e) => setCpassword(e.target.value)}
+                  placeholder="Confirm your Password..."
                 />
+                {passwordErr && `<p style={{color:"red"}}>${passwordErr}</p>`}
               </FormControl>
 
-              {!status ? <p>Fill All The details </p> : ""}
+              {!status && <p>Fill All The details </p>}
 
               {status ? (
                 <>

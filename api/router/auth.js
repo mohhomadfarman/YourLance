@@ -49,14 +49,19 @@ router.get("/userslists", async (req, res) => {
 
 
 router.post("/login", async (req, res) => {
-  const Login = await User.findOne({ username: req.body.username,
-    password: req.body.password,
-  });
+  const { otp } = req.body;
+  const Login = await User.find({ otp: req.body.otp
+  }  );
 
+try
+  {
+    const dataToSave = await Login.validate()
+  }catch{
 
-  
-  // console.log(Login,"dfghjkl")
-  res.send(Login);
+  }
+  console.log(Login[0].otp === otp ,"dfghjkl")
+  const otpVerify = Login[0].otp === otp
+  res.send({otp: otpVerify});
 
 }
 

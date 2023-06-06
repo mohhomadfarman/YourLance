@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Field } from "react-final-form";
 import { useDispatch } from "react-redux";
-import { loginStart, loginSuccess, loginFailure } from "../../redux/reducer/usersLogin";
+import { loginStart } from "../../redux/reducer/usersLogin";
 import { loginApi } from "../../redux/auctions/userLogin";
 
 const Login = () => {

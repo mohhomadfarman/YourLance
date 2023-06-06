@@ -1,6 +1,7 @@
 const expressAsyncHandler = require("express-async-handler");
 const dotenv = require("dotenv");
 const nodemailer = require("nodemailer");
+const User = require("../modals/userSchema");
 dotenv.config();
 
 let transporter = nodemailer.createTransport({
@@ -16,20 +17,37 @@ let transporter = nodemailer.createTransport({
 
 
 const sendEmail = expressAsyncHandler(async (req, res) => {
-  const { email, subject, message,otp, fullname } = req.body;
-  console.log(email, subject, message,otp, fullname);
+  const { email, fullname, mobile } = req.body;
+  console.log(email, fullname,mobile );
 
-  let EmailTamplate = 
-   
-     `<div> <h3> Hi ${fullname}</h3> <h3> Your Email: ${email}</h3> <p>${message}</p> <p>Do Not Share Your OTP, Enter This OTP <b>${otp}</b> </p> </div>`
+  let otp = Math.floor(Math.random(1000 > 10000) * 9000);
+
+  const data = new User({
+    fullname: req.body.fullname,
+    email: req.body.email,
+    password: req.body.password,
+    mobile: req.body.mobile,
+    otp: otp
+  });
+
+  try {
+    const dataToSave = await data.save();
+    // console.log(data, "data", ;truereq.body);
+    res.status(200).send({success:true});
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+
+
+
+
+  let EmailTamplate =  `<div> <h4> Hi ${fullname}</h4> <h4> Your Email: ${email}</h4><p>Do Not Share Your OTP, Enter This OTP <b>${otp}</b> </p> </div>`;
     
-      
-
   var mailOptions = {
     from: process.env.SMTP_MAIL,
     to: email,
-    subject: subject,
-    text: `${email} ${message} ${otp}`,
+    subject: "YourLance - OTP Veryfication",
+    text: `${email} ${otp}`,
     html: EmailTamplate
   
   };
