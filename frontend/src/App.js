@@ -6,6 +6,7 @@ import {
 import Register from "./components/Register";
 import Login from "./components/Login";
 import EmailForm from "./components/Form";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   const router = createBrowserRouter([
@@ -29,6 +30,10 @@ function App() {
       path: "/EmailSend",
       element: <EmailForm/>,
     },
+    {
+      path: "/dashboard",
+      element: <Dashboard/>,
+    }
   ]);
   return (
     <div className="App">

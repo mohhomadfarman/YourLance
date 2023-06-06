@@ -13,16 +13,24 @@ let transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmail = expressAsyncHandler(async (req, res) => {
-  const { email, subject, message,otp } = req.body;
-  console.log(email, subject, message,otp);
 
+
+const sendEmail = expressAsyncHandler(async (req, res) => {
+  const { email, subject, message,otp, fullname } = req.body;
+  console.log(email, subject, message,otp, fullname);
+
+  let EmailTamplate = 
+   
+     `<div> <h3> Hi ${fullname}</h3> <h3> Your Email: ${email}</h3> <p>${message}</p> <p>Do Not Share Your OTP, Enter This OTP <b>${otp}</b> </p> </div>`
+    
+      
 
   var mailOptions = {
     from: process.env.SMTP_MAIL,
     to: email,
     subject: subject,
     text: `${email} ${message} ${otp}`,
+    html: EmailTamplate
   
   };
 
