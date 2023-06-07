@@ -16,9 +16,9 @@ let transporter = nodemailer.createTransport({
 
 
 
-const sendEmail = expressAsyncHandler(async (req, res) => {
-  const { email, fullname, mobile } = req.body;
-  console.log(email, fullname,mobile );
+const UserRegister = expressAsyncHandler(async (req, res) => {
+  const { email, fullname, mobile, password } = req.body;
+  // console.log(email, fullname,mobile );
 
   let otp = Math.floor(Math.random(1000 > 10000) * 9000);
 
@@ -29,17 +29,6 @@ const sendEmail = expressAsyncHandler(async (req, res) => {
     mobile: req.body.mobile,
     otp: otp
   });
-
-  try {
-    const dataToSave = await data.save();
-    // console.log(data, "data", ;truereq.body);
-    res.status(200).send({success:true});
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
-
-
-
 
   let EmailTamplate =  `<div> <h4> Hi ${fullname}</h4> <h4> Your Email: ${email}</h4><p>Do Not Share Your OTP, Enter This OTP <b>${otp}</b> </p> </div>`;
     
@@ -52,7 +41,24 @@ const sendEmail = expressAsyncHandler(async (req, res) => {
   
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
+  const Login = await User.findOne({ 
+    email: req.body.email,
+   
+  });
+  const mobileValid = await User.findOne({ 
+    mobile: req.body.mobile,
+  });
+
+
+if(Login === null && mobileValid == null){
+  try {
+    const dataToSave = await data.save();
+    // console.log(data, "data", ;truereq.body);
+    res.status(200).send({success:true});
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+    transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
     } else {
@@ -60,6 +66,17 @@ const sendEmail = expressAsyncHandler(async (req, res) => {
       
     }
   });
+}else{
+  if(Login && mobileValid){
+    return res.send("user already exits")
+  }else if(Login){
+   return res.send("email already exits")
+  }else if(mobileValid){
+    return res.send("mobile already exits")
+  }
+}
+
+
 });
 
-module.exports = { sendEmail };
+module.exports = { UserRegister };

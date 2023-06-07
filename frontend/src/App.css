@@ -1,3 +1,14 @@
-.App {
-  text-align: center;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.Boxx_1
+{
+  width: 50%;
+}
+.Boxx_13
+{
+  width: 70%;
 }
