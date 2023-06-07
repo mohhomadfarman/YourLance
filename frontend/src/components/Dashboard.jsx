@@ -11,7 +11,7 @@ function Dashboard() {
     
         let UserName = JSON.parse(localStorage.getItem("data"));
 
-        console.log(UserName)
+        // console.log(UserName)
 
 function LogOut() {
     localStorage.clear("data")
