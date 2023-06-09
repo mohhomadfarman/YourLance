@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { loginApi } from "../../redux/auctions/userLogin";
 import { useDispatch } from "react-redux";
 import RegisterImage from "../../img/Register.jpg";
+import { CurrentApi } from "../../config/config";
 
 export default function EmailForm() {
   const [email, setEmail] = useState("");
@@ -39,8 +40,9 @@ export default function EmailForm() {
       navigate("/Login");
     }
   }, [navigate]);
+ 
 
-  const baseUrl = "https://bakend-drmg.onrender.com";
+  const baseUrl =  CurrentApi;
   const sendEmail = async () => {
     setStatus(
       email === "" && password === "" && fullname === "" && mobile === ""
