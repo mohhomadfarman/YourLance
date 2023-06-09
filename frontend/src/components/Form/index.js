@@ -40,7 +40,7 @@ export default function EmailForm() {
     }
   }, [navigate]);
 
-  const baseUrl = "http://localhost:4000";
+  const baseUrl = "https://bakend-drmg.onrender.com";
   const sendEmail = async () => {
     setStatus(
       email === "" && password === "" && fullname === "" && mobile === ""

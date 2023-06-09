@@ -15,26 +15,7 @@ const bodyParser = require("body-parser");
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-// router.post("/register", async (req, res) => {
-//   // console.log(req.body)
-//   // console.log(res, "cxvxcv");
-//   const data = new User({
-//     username: req.body.username,
-//     fullname: req.body.fullname,
-//     email: req.body.email,
-//     password: req.body.password,
-//   });
 
-//   try {
-//     const dataToSave = await data.save();
-//     // console.log(data, "data", req.body);
-//     res.status(200).send(dataToSave);
-//   } catch (error) {
-//     res.status(400).send({ message: error.message });
-//   }
-//   // console.log('hiii')
-//   res.send('asdasd')
-// });
 
 router.get("/", (req, res) => {
   res.send("posteed");
