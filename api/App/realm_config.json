@@ -1,0 +1,9 @@
+{
+    "app_id": "yourlance-ysrjd",
+    "config_version": 20210101,
+    "name": "yourlance",
+    "location": "IN-MB",
+    "provider_region": "gcp-asia-south1",
+    "deployment_model": "LOCAL",
+    "environment": "production"
+}

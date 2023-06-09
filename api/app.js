@@ -7,13 +7,14 @@ const registerRoutes = require("./router/registerRoutes");
 app.use(cors())
 
 const Local = "mongodb://localhost:27017/yourlance";
-const Live = 'mongodb+srv://yourlance:yourlance@atlascluster.hl7hbbc.mongodb.net';
+const Live = 'mongodb+srv://mohhomadfarman:Farman&321@cluster0.dxribwn.mongodb.net/';
+
 
 app.use(express.json());
 dotenv.config();
 
 
-const DB = Local // Replace with your MongoDB connection URL
+const DB = Live // Replace with your MongoDB connection URL
 mongoose.connect(DB, {
 
 
