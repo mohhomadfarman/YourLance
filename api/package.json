@@ -19,6 +19,9 @@
     "nodemon": "^2.0.22",
     "realm": "^11.9.0"
   },
+  "engines": {
+    "node": ">=14.20.1"
+  },
   "devDependencies": {
     "@vercel/node": "^2.15.1"
   }
