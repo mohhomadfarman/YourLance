@@ -6,8 +6,8 @@ var cors = require('cors')
 const registerRoutes = require("./router/registerRoutes");
 app.use(cors())
 
-const DBLogin = "mongodb://localhost:27017/yourlance";
-// const DBLogin = 'mongodb+srv://mohhomadfarman:Farman&321@cluster0.dxribwn.mongodb.net/';
+const DBLogin =  process.env.DATABASE;
+
 
 
 app.use(express.json());
