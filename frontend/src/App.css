@@ -12,3 +12,11 @@
 {
   width: 70%;
 }
+.border-green
+{
+  border: 1px solid green !important;
+}
+.border-red
+{
+  border: 1px solid red !important;
+}

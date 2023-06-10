@@ -6,15 +6,15 @@ var cors = require('cors')
 const registerRoutes = require("./router/registerRoutes");
 app.use(cors())
 
-const Local = "mongodb://localhost:27017/yourlance";
-const Live = 'mongodb+srv://mohhomadfarman:Farman&321@cluster0.dxribwn.mongodb.net/';
+const DBLogin = "mongodb://localhost:27017/yourlance";
+// const DBLogin = 'mongodb+srv://mohhomadfarman:Farman&321@cluster0.dxribwn.mongodb.net/';
 
 
 app.use(express.json());
 dotenv.config();
 
 
-const DB = Live // Replace with your MongoDB connection URL
+const DB = DBLogin // Replace with your MongoDB connection URL
 mongoose.connect(DB, {
 
 

@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import RegisterImage from "../../img/Register.jpg";
 import { loginApi } from "../../redux/auctions/userLogin";
+import { get } from "mongoose";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -26,13 +27,13 @@ export default function Login() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let Pagevalidation = JSON.parse(localStorage.getItem("OTP Status"));
+    let Pagevalidation = JSON.parse(localStorage.getItem("Login Status"));
     if (Pagevalidation === true) {
-      navigate("/Login");
+      navigate("/dashboard");
     }
   }, [navigate]);
-
-  const baseUrl = "http://localhost:4000";
+ 
+ 
 
   const LoginBUtton = async () => {
     setStatus(
@@ -55,12 +56,24 @@ export default function Login() {
     dispatch(loginApi(dataSend)).then((response) => {
       setGetData(response);
     });
+
+
+    
   };
 
 
+  const LoginErr = getData && getData.data ;
+  console.log(LoginErr)
+  if (getData && LoginErr.loginStatus === true) {
+    localStorage.setItem("Login Status" , "true")
+    navigate("/dashboard");
+  }
+
+ 
+
   return (
     <>
-      {!JSON.parse(localStorage.getItem("OTP Status")) && (
+      {!JSON.parse(localStorage.getItem("Login Status")) && (
         <Flex minH={"100vh"} align={"center"} justify={"center"}>
           <Stack
             className="Boxx_13"
@@ -112,7 +125,7 @@ export default function Login() {
                     placeholder="Enter the Password..."
                   />
                 </FormControl>
-             
+                {getData && !LoginErr.loginStatus === false ? (<p className="alert-danger">{LoginErr.err}</p>) :""}
 
                 <Stack spacing={10}>
                   <Button

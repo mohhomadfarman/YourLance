@@ -5,7 +5,7 @@ function Dashboard() {
     const navigate = useNavigate()
     useEffect(()=>{
 
-     !JSON.parse(localStorage.getItem("OTP Status")) && navigate("/emailsend");
+     !JSON.parse(localStorage.getItem("Login Status")) && navigate("/login");
         
       },[])
     
@@ -15,7 +15,7 @@ function Dashboard() {
 
 function LogOut() {
     localStorage.clear("data")
-    navigate("/emailsend")
+    navigate("/login")
 }
 
   return (

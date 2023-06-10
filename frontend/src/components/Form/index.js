@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import RegisterImage from "../../img/Register.jpg";
 import { CurrentApi } from "../../config/config";
 
-export default function EmailForm() {
+export default function Register() {
   const [email, setEmail] = useState("");
   const [cpassword, setCpassword] = useState("");
   const [password, setPassword] = useState("");
@@ -30,27 +30,21 @@ export default function EmailForm() {
   // const [otpPasscode, setOtpPasscode] = useState();
   const [getData, setGetData] = useState();
 
+  let InputsFiled = fullname && mobile && email && password && cpassword && password === cpassword ? true : false
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let Pagevalidation = JSON.parse(localStorage.getItem("OTP Status"));
+    let Pagevalidation = JSON.parse(localStorage.getItem("Login Status"));
     if (Pagevalidation === true) {
-      navigate("/Login");
+      navigate("/dashboard");
     }
   }, [navigate]);
- 
 
-  const baseUrl =  CurrentApi;
   const sendEmail = async () => {
-    setStatus(
-      email === "" && password === "" && fullname === "" && mobile === ""
-        ? false
-        : true
-    );
-  
-    // if(status){
+    console.log(status,"dfghjkjhgfdfghjk")
+    if(InputsFiled){
 
       let dataSend = {
         fullname: fullname,
@@ -79,7 +73,8 @@ export default function EmailForm() {
   
       localStorage.setItem("data", JSON.stringify(localStorageDB));
   
-      const res = await fetch(`${baseUrl}/api/UserRegister`, {
+ 
+      const res = await fetch(`${CurrentApi}/api/UserRegister`, {
         method: "POST",
         body: JSON.stringify(dataSend),
         headers: {
@@ -89,13 +84,21 @@ export default function EmailForm() {
       })
         // HANDLING ERRORS
         .then((res) => {
-          if (res.status > 199 && res.status < 300) {
-            console.log("Send Successfully !");
+          if (res.status > 199 && res.status < 300 && InputsFiled) {
+            console.log(res, "asdf");
+            setStatus(true)
           }
         });
-    // }else{
-    //   setErr("Fill All the Details")
-    // }
+ 
+    }else{
+      // setStatus(false)
+      setErr("Fill All the Details")
+      setStatus(InputsFiled)
+      if(!password === cpassword){
+        setPasswordErr("Password Not Match")
+
+      }
+    }
 
   };
 
@@ -110,17 +113,19 @@ export default function EmailForm() {
     dispatch(loginApi(SendOTPValidationStatus)).then((response) => {
       setGetData(response);
     });
-
-    // console.log(JSON.parse(getData.data.otp), "rghjkl");
-        if (getData.data.otp === true) {
-      localStorage.setItem("OTP Status", true);
-      navigate("/Login");
+// let otpvalidate = getData.data
+        if (getData) {
+      localStorage.clear();
+    console.log(true,"aaaaaaaaaaa")
+    navigate("/Login");
+    }else{
+      setErr("OTP is Invalid") 
     }
   };
 
   return (
     <>
-      {!JSON.parse(localStorage.getItem("OTP Status")) && (
+      {!JSON.parse(localStorage.getItem("Login Status")) && (
         <Flex minH={"100vh"} align={"center"} justify={"center"}>
           <Stack
             className="Boxx_13"
@@ -176,6 +181,7 @@ export default function EmailForm() {
                 <FormControl id="mobile">
                   <FormLabel>mobile Number</FormLabel>
                   <Input
+                  min={10}
                     required
                     // disabled={status ? true : false}
                     type="number"
@@ -195,16 +201,21 @@ export default function EmailForm() {
                 <FormControl id="text">
                   <FormLabel>Confirm Password</FormLabel>
                   <Input
+                  className={ password === "" &&  cpassword === ""  ? "" : cpassword === password ? "border-green" : "border-red" }
                     // disabled={status ? true : false}
                     onChange={(e) => setCpassword(e.target.value)}
                     placeholder="Confirm your Password..."
                   />
-                  {passwordErr && `<p style={{color:"red"}}>${passwordErr}</p>`}
+                  {cpassword === password ? "" :  (<p style={{color:"red"}} className="mt-3 mb-0">{passwordErr}</p>)}
                 </FormControl>
 
-                {err && <p>{err}</p>}
+              {!InputsFiled && !err === ""  ? (<p className="alert alert-danger ">{err}</p>)  :  !getData && err ? ( <p className="alert alert-danger ">{err}</p>):""  }
 
-                {status && err ? (
+{console.log(status && !err && !email  && !mobile ? true : false ,"dfghhhhhhhhhhhhhhhhhhhhhhhh")}
+
+
+
+                {status && (
                   <>
                     <FormControl id="otp">
                       <FormLabel>Enter OTP</FormLabel>
@@ -229,12 +240,11 @@ export default function EmailForm() {
                       </Button>
                     </Stack>
                   </>
-                ) : (
-                  ""
-                )}
+                )  }
 
                 <Stack spacing={10}>
                   <Button
+                  className="bg-success"
                     type="submit"
                     bg={"blue.400"}
                     color={"white"}
@@ -243,7 +253,7 @@ export default function EmailForm() {
                     }}
                     onClick={() => sendEmail()}
                   >
-                    Register
+                  {InputsFiled && !err && cpassword === password ? "Send OTP" : "Register"}  
                   </Button>
                 </Stack>
               </Stack>
