@@ -19,7 +19,7 @@ function ClientDashboard() {
   const searchParams = useParams();
 
   const dataID = {
-    email: searchParams.id,
+    id: searchParams.id,
   };
   useEffect(() => {
     dispatch(getUserDetails(dataID));
