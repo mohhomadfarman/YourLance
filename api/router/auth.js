@@ -19,8 +19,10 @@ router.get("/", (req, res) => {
   res.send("posteed");
 });
 
-router.get("/userslists", async (req, res) => {
-  const findResult = await User.find();
+router.post("/usersDetails", async (req, res) => {
+  const { email } = req.body;
+
+  const findResult = await User.find({email: req.body.email});
   console.log(findResult);
   res.send(findResult);
 });
