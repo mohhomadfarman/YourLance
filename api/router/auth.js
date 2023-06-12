@@ -20,9 +20,9 @@ router.get("/", (req, res) => {
 });
 
 router.post("/usersDetails", async (req, res) => {
-  const { email } = req.body;
+  const { id } = req.body;
 
-  const findResult = await User.find({email: req.body.email});
+  const findResult = await User.find({ id: req.body.id });
   console.log(findResult);
   res.send(findResult);
 });
@@ -51,7 +51,7 @@ router.post("/login", async (req, res) => {
         UserEmail.email === req.body.email &&
         UserEmail.password === req.body.password;
       if (LoginVeryfy) {
-        res.send({ loginStatus: LoginVeryfy });
+        res.send({ loginStatus: LoginVeryfy, id: UserEmail.id });
       } else if (!LoginVeryfy) {
         res.send({ err: "Password Dose not match" });
       }
