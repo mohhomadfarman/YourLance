@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
 router.post("/usersDetails", async (req, res) => {
   const { id } = req.body;
 
-  const findResult = await User.find({ id: req.body.id });
+  const findResult = await User.findOne({ id: req.body.id });
   console.log(findResult);
   res.send(findResult);
 });

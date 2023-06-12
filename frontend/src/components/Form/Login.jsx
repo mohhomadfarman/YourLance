@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import RegisterImage from "../../img/Register.jpg";
 import { loginApi } from "../../redux/auctions/userLogin";
 import { get } from "mongoose";
+import ClientDashboard from "../../Client Side";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -29,17 +30,12 @@ export default function Login() {
   useEffect(() => {
     let Pagevalidation = JSON.parse(localStorage.getItem("Login Status"));
     if (Pagevalidation === true) {
-      navigate("/dashboard");
+      navigate("/client");
     }
   }, [navigate]);
- 
- 
 
   const LoginBUtton = async () => {
-    setStatus(
-      email === "" && password === ""  ? false
-        : true
-    );
+    setStatus(email === "" && password === "" ? false : true);
     let dataSend = {
       email: email,
       password: password,
@@ -47,7 +43,7 @@ export default function Login() {
     };
     let localStorageDB = {
       email: email,
-      password: password ,
+      password: password,
       status: status,
     };
 
@@ -56,20 +52,15 @@ export default function Login() {
     dispatch(loginApi(dataSend)).then((response) => {
       setGetData(response);
     });
-
-
-    
   };
 
-
-  const LoginErr = getData && getData.data ;
-  console.log(LoginErr)
+  const LoginErr = getData && getData.data;
+  console.log(LoginErr);
   if (getData && LoginErr.loginStatus === true) {
-    localStorage.setItem("Login Status" , "true")
-    navigate("/dashboard");
+    localStorage.setItem("Login Status", "true");
+    navigate(`/client/${LoginErr.id}`);
   }
-
- 
+  console.log(email, "ggggggggggggggggggg");
 
   return (
     <>
@@ -100,13 +91,8 @@ export default function Login() {
             <Stack align={"center"}>
               <Heading fontSize={"4xl"}>Login To Your Account</Heading>
             </Stack>
-            <Box
-              rounded={"xl"}
-              boxShadow={"lg"}
-              p={8}
-            >
+            <Box rounded={"xl"} boxShadow={"lg"} p={8}>
               <Stack spacing={4}>
-            
                 <FormControl id="email">
                   <FormLabel>Email address</FormLabel>
                   <Input
@@ -116,7 +102,7 @@ export default function Login() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </FormControl>
-             
+
                 <FormControl id="password">
                   <FormLabel>Password</FormLabel>
                   <Input
@@ -125,7 +111,11 @@ export default function Login() {
                     placeholder="Enter the Password..."
                   />
                 </FormControl>
-                {getData && !LoginErr.loginStatus === false ? (<p className="alert-danger">{LoginErr.err}</p>) :""}
+                {getData && !LoginErr.loginStatus === false ? (
+                  <p className="alert-danger">{LoginErr.err}</p>
+                ) : (
+                  ""
+                )}
 
                 <Stack spacing={10}>
                   <Button
