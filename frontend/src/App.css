@@ -2,8 +2,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-
+.pointer{
+  cursor: pointer;
+}
 .Boxx_1
 {
   width: 50%;
@@ -19,4 +22,187 @@
 .border-red
 {
   border: 1px solid red !important;
+}
+
+/* navbar */
+.main.nav-bar-hero{
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 22px 28px;
+border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+margin-bottom: 37px;
+
+}
+.main.nav-bar-hero .nav-logo {
+font-style: normal;
+font-weight: 500;
+font-size: 24px;
+line-height: 20px;
+}
+.nav-menu
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.input-group-1  span
+{
+  border-right: none;
+}
+.input-group-1  input{
+  border-left: none;
+
+}
+.input-group-1  input:focus{
+  box-shadow: none;
+  border-color: #e2e8f0;
+}
+.input-group-1  input::placeholder{
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+color: rgba(0, 0, 0, 0.2);
+font-feature-settings: 'ss01' on, 'cv01' on, 'cv11' on;
+}
+.Top-heading
+{
+  margin-bottom: 34px;
+}
+.Top-heading h1
+{
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 20px;
+  color: #000000;
+  margin-bottom: 8px;
+}
+.Top-heading p{
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+margin: 0;
+}
+/* main-container */
+
+.main-container
+{
+  padding: 33px 29px;
+  box-sizing: border-box;
+  background: #FEFEFE;
+border: 1px solid #E3E3E3;
+box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.06);
+border-radius: 21px;
+}
+.client-heading
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.client-heading p{
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 20px;
+}
+.client-heading span{
+  font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 20px;
+color: #0B9E2C;
+}
+.jobPosting
+{display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 20px;
+  background: #FFFFFF;
+border-bottom: 1px solid #C0C0C0;
+border-radius: 5px;
+
+}
+.jobPosting:hover{
+  background-color: #f3f3f3;
+}
+.jobPosting:hover p:nth-child(1){
+  text-decoration: underline;
+  color: #0B9E2C;
+}
+.jobPosting p:nth-child(1)
+{
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+margin-bottom: 8px;
+}
+.jobPosting p:nth-child(2)
+{
+font-style: normal;
+font-weight: 300;
+font-size: 12px;
+line-height: 10px;
+margin: 0;
+}
+.MenuOption{
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
+  /* border: 0.5px solid #0B9E2C; */
+  /* background-color: #0B9E2C; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Right-GreenBTn
+{
+  background: #59D76D;
+border: 1px solid #000000;
+border-radius: 100px;
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 12px 62px;
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+margin-bottom: 24px;
+}
+.UserSetting
+{
+  background: #F2F2F2;
+border: 1px solid #E3E3E3;
+border-radius: 13px;
+display: flex;
+align-items: flex-start;
+padding: 9px 18px;
+}
+.User-image{
+  background: #FFFFFF;
+border: 1px solid #CECECE;
+width: 60px;
+height: 60px;
+border-radius: 100%;
+overflow: hidden;
+}
+.User-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.UserSetting p{
+  margin: 0;
+}
+.UserSetting p:nth-child(1)
+{
+  margin-bottom: 8px;
 }

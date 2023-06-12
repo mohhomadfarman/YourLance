@@ -14,7 +14,6 @@ export const loginApi = (data) => async () => {
   
 let login = axiosInstance.post("login", data);
 
-
   return login
 
 };

@@ -7,7 +7,7 @@ function Dashboard() {
 
      !JSON.parse(localStorage.getItem("Login Status")) && navigate("/login");
         
-      },[])
+      },[navigate])
     
         let UserName = JSON.parse(localStorage.getItem("data"));
 
