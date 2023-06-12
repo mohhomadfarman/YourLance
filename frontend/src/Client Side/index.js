@@ -10,15 +10,19 @@ import { getUserDetails } from "../redux/auctions/userLogin";
 function ClientDashboard() {
 
   const dispatch = useDispatch()  
-  const data = useSelector((state)=>state?.userList?.DataList[0])
-
   const dataID = {
     email: "mohhomadfarman@gmail.com"
   }
-
   useEffect(() => {
     dispatch(getUserDetails(dataID))
   },[])
+
+  const data = useSelector((state)=>state?.userList?.DataList[0])
+
+
+  console.log(data)
+
+
   
 
 
@@ -37,7 +41,7 @@ function ClientDashboard() {
      <div className="Top-heading">
         <h1>Your Dashboard</h1>
         
-      <p>{data.fullname}</p>
+      <p>{data?.fullname}</p>
        
       </div>
      <div>
@@ -49,7 +53,7 @@ function ClientDashboard() {
       <LeftSide client={true} />
     </Col>
     <Col md={4}>
-      <RightSide  username={data.fullname} button="Post a Job"/>
+      <RightSide  username={data?.fullname} button="Post a Job"/>
     </Col>
 </Row>
   </Container>
