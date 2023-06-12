@@ -11,6 +11,7 @@ import Dashboard from "./components/Dashboard";
 import Login from "./components/Form/Login";
 import Register from "./components/Form";
 import ClientDashboard from "./Client Side";
+import Postjob from "./Client Side/Right/Postjob";
 
 function App() {
   const router = createBrowserRouter([
@@ -48,6 +49,7 @@ function App() {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/client/:id" element={<ClientDashboard />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
+        <Route exact path="/Postjob" element={<Postjob />} />
       </Routes>
     </div>
   );
