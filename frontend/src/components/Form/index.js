@@ -26,11 +26,19 @@ export default function Register() {
   const [validate, setValidate] = useState("");
   const [passwordErr, setPasswordErr] = useState();
   const [status, setStatus] = useState();
-  const [err, setErr] = useState()
+  const [err, setErr] = useState();
   // const [otpPasscode, setOtpPasscode] = useState();
   const [getData, setGetData] = useState();
 
-  let InputsFiled = fullname && mobile && email && password && cpassword && password === cpassword ? true : false
+  let InputsFiled =
+    fullname &&
+    mobile &&
+    email &&
+    password &&
+    cpassword &&
+    password === cpassword
+      ? true
+      : false;
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -38,14 +46,13 @@ export default function Register() {
   useEffect(() => {
     let Pagevalidation = JSON.parse(localStorage.getItem("Login Status"));
     if (Pagevalidation === true) {
-      navigate("/dashboard");
+      navigate("/client");
     }
   }, [navigate]);
 
   const sendEmail = async () => {
-    console.log(status,"dfghjkjhgfdfghjk")
-    if(InputsFiled){
-
+    console.log(status, "dfghjkjhgfdfghjk");
+    if (InputsFiled) {
       let dataSend = {
         fullname: fullname,
         email: email,
@@ -70,10 +77,9 @@ export default function Register() {
         mobile: mobile,
         status: status,
       };
-  
+
       localStorage.setItem("data", JSON.stringify(localStorageDB));
-  
- 
+
       const res = await fetch(`${CurrentApi}/api/UserRegister`, {
         method: "POST",
         body: JSON.stringify(dataSend),
@@ -86,20 +92,17 @@ export default function Register() {
         .then((res) => {
           if (res.status > 199 && res.status < 300 && InputsFiled) {
             console.log(res, "asdf");
-            setStatus(true)
+            setStatus(true);
           }
         });
- 
-    }else{
+    } else {
       // setStatus(false)
-      setErr("Fill All the Details")
-      setStatus(InputsFiled)
-      if(!password === cpassword){
-        setPasswordErr("Password Not Match")
-
+      setErr("Fill All the Details");
+      setStatus(InputsFiled);
+      if (!password === cpassword) {
+        setPasswordErr("Password Not Match");
       }
     }
-
   };
 
   const ValidateOTP = async () => {
@@ -113,13 +116,13 @@ export default function Register() {
     dispatch(loginApi(SendOTPValidationStatus)).then((response) => {
       setGetData(response);
     });
-// let otpvalidate = getData.data
-        if (getData) {
+    // let otpvalidate = getData.data
+    if (getData) {
       localStorage.clear();
-    console.log(true,"aaaaaaaaaaa")
-    navigate("/Login");
-    }else{
-      setErr("OTP is Invalid") 
+      console.log(true, "aaaaaaaaaaa");
+      navigate("/Login");
+    } else {
+      setErr("OTP is Invalid");
     }
   };
 
@@ -152,11 +155,7 @@ export default function Register() {
             <Stack align={"center"}>
               <Heading fontSize={"4xl"}>Register to the account</Heading>
             </Stack>
-            <Box
-              rounded={"xl"}
-              boxShadow={"lg"}
-              p={8}
-            >
+            <Box rounded={"xl"} boxShadow={"lg"} p={8}>
               <Stack spacing={4}>
                 <FormControl id="name">
                   <FormLabel>Full Name</FormLabel>
@@ -181,7 +180,7 @@ export default function Register() {
                 <FormControl id="mobile">
                   <FormLabel>mobile Number</FormLabel>
                   <Input
-                  min={10}
+                    min={10}
                     required
                     // disabled={status ? true : false}
                     type="number"
@@ -201,19 +200,38 @@ export default function Register() {
                 <FormControl id="text">
                   <FormLabel>Confirm Password</FormLabel>
                   <Input
-                  className={ password === "" &&  cpassword === ""  ? "" : cpassword === password ? "border-green" : "border-red" }
+                    className={
+                      password === "" && cpassword === ""
+                        ? ""
+                        : cpassword === password
+                        ? "border-green"
+                        : "border-red"
+                    }
                     // disabled={status ? true : false}
                     onChange={(e) => setCpassword(e.target.value)}
                     placeholder="Confirm your Password..."
                   />
-                  {cpassword === password ? "" :  (<p style={{color:"red"}} className="mt-3 mb-0">{passwordErr}</p>)}
+                  {cpassword === password ? (
+                    ""
+                  ) : (
+                    <p style={{ color: "red" }} className="mt-3 mb-0">
+                      {passwordErr}
+                    </p>
+                  )}
                 </FormControl>
 
-              {!InputsFiled && !err === ""  ? (<p className="alert alert-danger ">{err}</p>)  :  !getData && err ? ( <p className="alert alert-danger ">{err}</p>):""  }
+                {!InputsFiled && !err === "" ? (
+                  <p className="alert alert-danger ">{err}</p>
+                ) : !getData && err ? (
+                  <p className="alert alert-danger ">{err}</p>
+                ) : (
+                  ""
+                )}
 
-{console.log(status && !err && !email  && !mobile ? true : false ,"dfghhhhhhhhhhhhhhhhhhhhhhhh")}
-
-
+                {console.log(
+                  status && !err && !email && !mobile ? true : false,
+                  "dfghhhhhhhhhhhhhhhhhhhhhhhh"
+                )}
 
                 {status && (
                   <>
@@ -240,11 +258,11 @@ export default function Register() {
                       </Button>
                     </Stack>
                   </>
-                )  }
+                )}
 
                 <Stack spacing={10}>
                   <Button
-                  className="bg-success"
+                    className="bg-success"
                     type="submit"
                     bg={"blue.400"}
                     color={"white"}
@@ -253,7 +271,9 @@ export default function Register() {
                     }}
                     onClick={() => sendEmail()}
                   >
-                  {InputsFiled && !err && cpassword === password ? "Send OTP" : "Register"}  
+                    {InputsFiled && !err && cpassword === password
+                      ? "Send OTP"
+                      : "Register"}
                   </Button>
                 </Stack>
               </Stack>
