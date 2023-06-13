@@ -4,13 +4,21 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import React from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 
-
 function Postjob() {
-  const onSubmit = (values) => {
+  const [changefile, setFile] = useState();
+  const onSubmit = async (values) => {
     console.log(values, "ggggggggggg");
+    const payload = new FormData();
+    payload.append("file", changefile);
+    const response = await fetch("https://httpbin.org/post", {
+      method: "POST",
+      body: payload, // this sets the `Content-Type` header to `multipart/form-data`
+    });
+    const data = await response.json();
+    console.log("Success!", data);
   };
 
   const validate = (values) => {
@@ -45,8 +53,6 @@ function Postjob() {
     { value: "mediun", label: "mediun" },
     { value: "large", label: "large" },
   ];
-
-
 
   const colourOptions = [
     { value: "ocean", label: "Ocean", color: "#00B8D9", isFixed: true },
@@ -108,11 +114,13 @@ function Postjob() {
                           <label>add skills </label>
                           {/* <input
                             {...input}
-                            className="form-control"
+                            classN
+                            ame="form-control"
                             type="text"
                             placeholder="Last Name"
                           /> */}
                           <Select
+                            {...input}
                             defaultValue={[colourOptions[2], colourOptions[3]]}
                             isMulti
                             name="addskill"
@@ -127,8 +135,18 @@ function Postjob() {
                         </div>
                       )}
                     </Field>
-                    <label>select scope of your work </label>
-                    <Select name="scopework" options={scopework} />
+                    <Field name="scopework">
+                      {({ input, meta }) => (
+                        <>
+                          <label>select scope of your work </label>
+                          <Select
+                            {...input}
+                            name="scopework"
+                            options={scopework}
+                          />
+                        </>
+                      )}
+                    </Field>
 
                     <Field name="Buget">
                       {({ input, meta }) => (
@@ -154,6 +172,22 @@ function Postjob() {
                       component="textarea"
                       placeholder=" discribe Notes"
                     />
+
+                    <Field>
+                      {({ input: { value, onChange, ...input } }) => (
+                        <input
+                          {...input}
+                          type="file"
+                          onChange={({ target }) => {
+                            let uniqueId = Date.now();
+                            const filename =
+                              uniqueId + "_" + target.files[0].name;
+                            let file = new File(target.files, filename);
+                            setFile(file);
+                          }} // instead of the default target.value
+                        />
+                      )}
+                    </Field>
                     <div className="buttons">
                       <button
                         className="btn btn-success"
