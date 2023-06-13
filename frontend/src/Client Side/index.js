@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RightSide from "./Right";
 import { getUserDetails } from "../redux/auctions/userLogin";
 import {
+  Link,
   useLocation,
   useNavigate,
   useParams,
@@ -24,8 +25,6 @@ function ClientDashboard() {
   useEffect(() => {
     dispatch(getUserDetails(dataID));
     console.log(searchParams, "ghghgh");
-
-    !JSON.parse(localStorage.getItem("Login Status")) && navigate("/login");
   }, []);
 
   const data = useSelector((state) => state?.userList?.DataList[0]);
@@ -47,7 +46,9 @@ function ClientDashboard() {
                 <p>{data?.fullname}</p>
               </div>
               <div>
-                <button className="Right-GreenBTn">Post a job</button>
+                <Link to="/Postjob">
+                  <button className="Right-GreenBTn">Post a job</button>
+                </Link>
               </div>
             </div>
           </Col>

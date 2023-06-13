@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const loginSlice = createSlice({
-  name: 'login',
+  name: "login",
   initialState: {
     isLoading: false,
     error: null,
@@ -21,7 +21,6 @@ const loginSlice = createSlice({
       state.error = action.payload;
     },
   },
-  
 });
 
 export const { loginStart, loginSuccess, loginFailure } = loginSlice.actions;
