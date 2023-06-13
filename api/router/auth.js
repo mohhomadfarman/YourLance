@@ -31,14 +31,21 @@ router.post("/login", async (req, res) => {
 
   if (req.body.otp) {
     const Login = await User.find({ otp: req.body.otp });
+
     try {
       const dataToSave = await Login.validate();
     } catch {}
     console.log(Login[0].otp === otp, "dfghjkl");
     const otpVerify = Login[0].otp === otp;
+
+    // const verifystatuis =  await User.updateOne({otp: otp, $set: {test: 1}});
+    // console.log(verifystatuis)
+   
     res.send({ otp: otpVerify });
+
   } else {
     const UserEmail = await User.findOne({ email: req.body.email });
+
     try {
       const dataToSave = await UserLogin.validate();
     } catch {}
@@ -57,5 +64,19 @@ router.post("/login", async (req, res) => {
     }
   }
 });
+
+router.post("/job-post", async (req, res) => {
+
+  const data = new User({
+    // fullname: req.body.fullname,
+    // email: req.body.email,
+    // password: req.body.password,
+    // mobile: req.body.mobile,
+    // otp: otp
+  });
+
+  r
+  const Login = await User.find({ otp: req.body.otp });
+})
 
 module.exports = router;
