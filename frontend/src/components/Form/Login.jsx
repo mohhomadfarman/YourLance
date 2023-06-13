@@ -11,11 +11,12 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import RegisterImage from "../../img/Register.jpg";
 import { loginApi } from "../../redux/auctions/userLogin";
 import { get } from "mongoose";
 import ClientDashboard from "../../Client Side";
+import GrowExample from "./Isloading";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -53,18 +54,25 @@ export default function Login() {
       setGetData(response);
     });
   };
+  const loading = useSelector((state) => state?.login?.isLoading);
+  console.log(loading);
 
   const LoginErr = getData && getData.data;
   console.log(LoginErr);
   if (getData && LoginErr.loginStatus === true) {
-    localStorage.setItem("Login Status", "true");
+    // localStorage.setItem("Login Status", "true");
     navigate(`/client/${LoginErr.id}`);
   }
   console.log(email, "ggggggggggggggggggg");
 
   return (
     <>
-      {!JSON.parse(localStorage.getItem("Login Status")) && (
+      {loading === true ? (
+        <h1>
+          hellllooooooooooooooooo
+          <GrowExample />
+        </h1>
+      ) : (
         <Flex minH={"100vh"} align={"center"} justify={"center"}>
           <Stack
             className="Boxx_13"
