@@ -205,3 +205,134 @@ overflow: hidden;
 {
   margin-bottom: 8px;
 }
+
+/* Post-JobDiv */
+.Post-JobDiv
+{
+background: #FEFEFE;
+border: 1px solid #E3E3E3;
+box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.06);
+border-radius: 21px;
+padding: 33px 24px;
+}
+.Post-JobDiv h1{
+  font-style: normal;
+font-weight: 500;
+font-size: 24px;
+line-height: 20px;
+/* identical to box height, or 83% */
+
+display: flex;
+align-items: center;
+text-align: center;
+margin-bottom: 36px;
+color: #000000;
+}
+.Post-JobDiv h4{
+  text-transform: capitalize;
+  font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 20px;
+/* identical to box height, or 111% */
+margin-bottom: 16px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #000000;
+
+}
+.Post-JobDiv p {
+  font-style: normal;
+  text-transform: capitalize;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #000000;
+
+}
+.Post-JobDiv .titles-post label{
+  font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 20px;
+/* identical to box height, or 111% */
+
+display: flex;
+align-items: center;
+text-align: center;
+text-transform: capitalize;
+color: #000000;
+margin-bottom: 15px;
+}
+.Post-JobDiv .titles-post{
+   margin-bottom: 24px;
+}
+.Post-JobDiv .titles-post input, .Post-JobDiv .titles-post  textarea, input, textarea{
+  background: #FEFEFE;
+border: 1px solid #E3E3E3;
+box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.06);
+border-radius: 5px;
+resize: none;
+
+}
+.Post-JobDiv .titles-post input::placeholder,.Post-JobDiv .titles-post textarea::placeholder{
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+
+color: #858585;
+
+}
+.uploadinput 
+{
+  border: 1px solid;
+  position: relative;
+  background: #FEFEFE;
+  border: 1px solid #E3E3E3;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.06);
+  border-radius: 5px;
+  resize: none;
+  height: 46px;
+}
+
+.uploadinput::before{
+  content: attr(values);
+  position: absolute;
+  top: 10px;
+  left: 50px;
+}
+.uploadinput svg{
+  position: absolute;
+  top: 5px;
+  left: 10px;
+
+
+}
+.uploadinput input{
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+.post-buttons
+{
+  background: #59D76D;
+border: 1px solid #000000;
+border-radius: 100px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #000000;
+width: fit-content;
+padding: 12px 60px 12px 62px;
+margin-top: 45px;
+}
