@@ -42,7 +42,7 @@ function ClientDashboard() {
                 <p>{data?.fullname}</p>
               </div>
               <div>
-                <Link to="/Postjob">
+                <Link to={`/Postjob/${searchParams.id}`}>
                   <button className="Right-GreenBTn">Post a job</button>
                 </Link>
               </div>

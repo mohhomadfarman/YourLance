@@ -4,15 +4,36 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {BiCloudUpload, BiUpload} from 'react-icons/bi';
 import Select from "react-select";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { JobPosting } from "../../redux/auctions/JobPostingAction";
+import { useParams } from "react-router-dom";
+import { getUserDetails } from "../../redux/auctions/userLogin";
+import Navbar from "../../components/Navbar";
 function Postjob() {
   const [file, setFile] = useState();
 
-  const dispatch = useDispatch() 
+  const dispatch = useDispatch()
 
+
+
+
+  // const dispatch = useDispatch();
+  const searchParams = useParams();
+
+  const dataID = {
+    id: searchParams.id,
+  };
+  useEffect(() => {
+    dispatch(getUserDetails(dataID));
+    console.log(searchParams, "ghghgh");
+  }, []);
+
+  const data = useSelector((state) => state?.userList?.DataList[0]);
+
+console.log(data)
   const validate = (values) => {
     let errors = {};
     if (!values.postjob) {
@@ -33,11 +54,14 @@ function Postjob() {
   };
 
   const initialValues = {
+    // clientname: data.fullname,
+    clientId: searchParams.id,
     title: "",
     AddSkills: "",
     ScopeOfyourWork: "",
     budget: "",
     Describe: "",
+  
   };
 
   const onSubmit = async (initialValues) => {
@@ -65,9 +89,10 @@ function Postjob() {
 
   return (
     <>
+    <Navbar/>
       <Container>
-        <Row style={{ justifyContent: "center" }}>
-          <Col md={6}>
+        <Row style={{ justifyContent: "center", marginBottom:"48px" }}>
+          <Col md={8} >
             <div>
               <Form
                 onSubmit={onSubmit}
@@ -80,7 +105,7 @@ function Postjob() {
                   pristine,
                   values,
                 }) => (
-                  <form onSubmit={handleSubmit}>
+                  <form className="Post-JobDiv" onSubmit={handleSubmit}>
                     <div>
                       <h1>Get started</h1>
                       <div>
@@ -89,7 +114,7 @@ function Postjob() {
                       </div>
                       <Field name="title">
                         {({ input, meta }) => (
-                          <div>
+                          <div className="titles-post">
                             <label>write a title for your job post</label>
                             <input
                               {...input}
@@ -106,9 +131,9 @@ function Postjob() {
                     </div>
                     <Field name="AddSkills">
                       {({ input, meta }) => (
-                        <div>
+                        <div className="titles-post">
                           <label>add skills </label>
-                         
+
                           <Select
                             {...input}
                             defaultValue={[colourOptions[2], colourOptions[3]]}
@@ -127,26 +152,26 @@ function Postjob() {
                     </Field>
                     <Field name="ScopeOfyourWork">
                       {({ input, meta }) => (
-                        <>
-                          <label>select scope of your work </label>
+                        <div className="titles-post">
+                          <label >select scope of your work </label>
                           <Select
                             {...input}
                             name="scopework"
                             options={scopework}
                           />
-                        </>
+                        </div>
                       )}
                     </Field>
 
                     <Field name="budget">
                       {({ input, meta }) => (
-                        <div>
+                        <div className="titles-post">
                           <label> tell us about your buget/(fixed) </label>
                           <input
                             {...input}
                             className="form-control"
                             type="number"
-                            placeholder="Last Name"
+                            placeholder="$100"
                           />
                           {meta.error && meta.touched && (
                             <span>{meta.error}</span>
@@ -154,18 +179,23 @@ function Postjob() {
                         </div>
                       )}
                     </Field>
-                    <label> discribe what you need </label>
+                    <div className="titles-post">
+                      <label> discribe what you need </label>
 
-                    <Field
-                      name="Describe"
-                      className="form-control"
-                      component="textarea"
-                      placeholder=" discribe Notes"
-                    />
-
-                    <Field name="img" >
+                      <Field
+                        name="Describe"
+                        className="form-control"
+                        component="textarea"
+                        placeholder=" Discribe Notes"
+                      />
+                    </div>
+                    <div className="titles-post">
+                   <div  className="uploadinput m-0" values=" Choose File" >
+                    <BiCloudUpload size={35}/>
+                                       <Field name="img" >
                       {({ input: { value, onChange, ...input } }) => (
                         <input
+                        className="w-100"
                           {...input}
                           type="file"
                           onChange={({ target }) => {
@@ -178,22 +208,17 @@ function Postjob() {
                         />
                       )}
                     </Field>
-                    <div className="buttons">
+                   </div>
+                    </div>
+                    <div className="post-buttons">
                       <button
-                        className="btn btn-success"
+                        className=""
                         type="submit"
                         disabled={submitting}
                       >
                         Post a Job
                       </button>
-                      <button
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={form.reset}
-                        disabled={submitting || pristine}
-                      >
-                        Reset
-                      </button>
+                  
                     </div>
                   </form>
                 )}
