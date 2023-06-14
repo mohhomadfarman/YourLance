@@ -50,7 +50,7 @@ function App() {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/client/:id" element={<ClientDashboard />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
-        <Route exact path="/Postjob" element={<Postjob />} />
+        <Route exact path="/Postjob/:id" element={<Postjob />} />
       </Routes>
     </div>
   );
