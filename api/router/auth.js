@@ -1,5 +1,7 @@
 const express = require("express");
 const User = require("../modals/userSchema");
+const JobPosting = require("../modals/JobPostingSchema");
+
 
 const router = express.Router();
 
@@ -65,18 +67,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/job-post", async (req, res) => {
 
-  const data = new User({
-    // fullname: req.body.fullname,
-    // email: req.body.email,
-    // password: req.body.password,
-    // mobile: req.body.mobile,
-    // otp: otp
-  });
-
-  r
-  const Login = await User.find({ otp: req.body.otp });
-})
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
 import LeftSide from "./Left";
@@ -7,16 +7,12 @@ import RightSide from "./Right";
 import { getUserDetails } from "../redux/auctions/userLogin";
 import {
   Link,
-  useLocation,
-  useNavigate,
   useParams,
-  useSearchParams,
+  
 } from "react-router-dom";
 
 function ClientDashboard() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
   const searchParams = useParams();
 
   const dataID = {

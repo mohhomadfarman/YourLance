@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
+const PostSchema = new mongoose.Schema({
     clientname: {
+        type: String,
+        required:false
+    },
+    clientId: {
         type: String,
         required:false
     },
@@ -10,11 +14,11 @@ const userSchema = new mongoose.Schema({
         required:true
     },
     AddSkills: {
-        type: String,
+        type: Array,
         required:true
     },
     ScopeOfyourWork: {
-        type: String,
+        type: Array,
         required:true
     },
     budget: {
@@ -25,15 +29,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    Describe: {
-        type: String,
-        required: true
-    }
+
     
 
 })
-userSchema.set('timestamps', true);
+PostSchema.set('timestamps', true);
 
-const JobPosting = mongoose.model('jobposting', userSchema)
+const JobPosting = mongoose.model('jobposting', PostSchema)
 
 module.exports = JobPosting

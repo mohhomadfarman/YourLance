@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 var cors = require('cors')
   const app = express();
 const registerRoutes = require("./router/registerRoutes");
+const searchRoutes = require('./router/searchAPI');
+const JobpostApi = require('./router/JobpostApi');
 app.use(cors())
 
 const DBLogin =  process.env.DATABASE;
@@ -26,6 +28,8 @@ mongoose.connect(DB, {
 app.use(require('./router/auth'));
 
 app.use("/api", registerRoutes);
+app.use("/api", searchRoutes);
+app.use("/api", JobpostApi);
 
 
 const PORT = process.env.PORT;

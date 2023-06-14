@@ -12,6 +12,7 @@ import Login from "./components/Form/Login";
 import Register from "./components/Form";
 import ClientDashboard from "./Client Side";
 import Postjob from "./Client Side/Right/Postjob";
+import Home from "./Home";
 
 function App() {
   const router = createBrowserRouter([
@@ -21,7 +22,7 @@ function App() {
     },
     {
       path: "/",
-      element: "Home",
+      element: <Home/>,
     },
     {
       path: "/Login",
@@ -44,7 +45,7 @@ function App() {
     <div className="App">
       {/* <RouterProvider router={router} /> */}
       <Routes>
-        <Route exact path="/" element={"Home"} />
+        <Route exact path="/" element={<Home/>} />
         <Route exact path="/Login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/client/:id" element={<ClientDashboard />} />

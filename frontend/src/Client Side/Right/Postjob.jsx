@@ -6,20 +6,12 @@ import Col from "react-bootstrap/Col";
 
 import React, { useState } from "react";
 import Select from "react-select";
-
+import { useDispatch } from "react-redux";
+import { JobPosting } from "../../redux/auctions/JobPostingAction";
 function Postjob() {
-  const [changefile, setFile] = useState();
-  const onSubmit = async (values) => {
-    console.log(values, "ggggggggggg");
-    const payload = new FormData();
-    payload.append("file", changefile);
-    const response = await fetch("https://httpbin.org/post", {
-      method: "POST",
-      body: payload, // this sets the `Content-Type` header to `multipart/form-data`
-    });
-    const data = await response.json();
-    console.log("Success!", data);
-  };
+  const [file, setFile] = useState();
+
+  const dispatch = useDispatch() 
 
   const validate = (values) => {
     let errors = {};
@@ -41,13 +33,17 @@ function Postjob() {
   };
 
   const initialValues = {
-    postjob: "",
-    addskills: "",
-    scopework: "",
-    Buget: "",
-    discribe: "",
+    title: "",
+    AddSkills: "",
+    ScopeOfyourWork: "",
+    budget: "",
+    Describe: "",
   };
 
+  const onSubmit = async (initialValues) => {
+    dispatch(JobPosting(initialValues))
+    console.log(initialValues)
+  };
   const scopework = [
     { value: "small", label: "small" },
     { value: "mediun", label: "mediun" },
@@ -91,7 +87,7 @@ function Postjob() {
                         <h4>what would you like to do?</h4>
                         <p>create a new job </p>
                       </div>
-                      <Field name="postjob">
+                      <Field name="title">
                         {({ input, meta }) => (
                           <div>
                             <label>write a title for your job post</label>
@@ -108,17 +104,11 @@ function Postjob() {
                         )}
                       </Field>
                     </div>
-                    <Field name="addskills">
+                    <Field name="AddSkills">
                       {({ input, meta }) => (
                         <div>
                           <label>add skills </label>
-                          {/* <input
-                            {...input}
-                            classN
-                            ame="form-control"
-                            type="text"
-                            placeholder="Last Name"
-                          /> */}
+                         
                           <Select
                             {...input}
                             defaultValue={[colourOptions[2], colourOptions[3]]}
@@ -135,7 +125,7 @@ function Postjob() {
                         </div>
                       )}
                     </Field>
-                    <Field name="scopework">
+                    <Field name="ScopeOfyourWork">
                       {({ input, meta }) => (
                         <>
                           <label>select scope of your work </label>
@@ -148,7 +138,7 @@ function Postjob() {
                       )}
                     </Field>
 
-                    <Field name="Buget">
+                    <Field name="budget">
                       {({ input, meta }) => (
                         <div>
                           <label> tell us about your buget/(fixed) </label>
@@ -167,13 +157,13 @@ function Postjob() {
                     <label> discribe what you need </label>
 
                     <Field
-                      name="discribe"
+                      name="Describe"
                       className="form-control"
                       component="textarea"
                       placeholder=" discribe Notes"
                     />
 
-                    <Field>
+                    <Field name="img" >
                       {({ input: { value, onChange, ...input } }) => (
                         <input
                           {...input}
@@ -183,7 +173,7 @@ function Postjob() {
                             const filename =
                               uniqueId + "_" + target.files[0].name;
                             let file = new File(target.files, filename);
-                            setFile(file);
+                            // setFile(file);
                           }} // instead of the default target.value
                         />
                       )}
