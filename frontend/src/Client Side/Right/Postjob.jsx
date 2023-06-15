@@ -9,31 +9,14 @@ import { BiCloudUpload, BiUpload } from 'react-icons/bi';
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { JobPosting } from "../../redux/auctions/JobPostingAction";
-import { useParams } from "react-router-dom";
-import { getUserDetails } from "../../redux/auctions/userLogin";
+import { Link, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 function Postjob() {
-  const [file, setFile] = useState();
 
   const dispatch = useDispatch()
 
-
-
-
-  // const dispatch = useDispatch();
   const searchParams = useParams();
-
-  const dataID = {
-    id: searchParams.id,
-  };
-  useEffect(() => {
-    dispatch(getUserDetails(dataID));
-    console.log(searchParams, "ghghgh");
-  }, []);
-
-  const data = useSelector((state) => state?.userList?.DataList[0]);
-
-  // console.log(data)
+  const userData = JSON.parse(localStorage.getItem("userData"))
   const validate = (values) => {
     let errors = {};
     if (!values.postjob) {
@@ -54,7 +37,7 @@ function Postjob() {
   };
 
   const initialValues = {
-    // clientname: data.fullname,
+    clientname: userData.fullname,
     clientId: searchParams.id,
     title: "",
     AddSkills: "",
@@ -67,7 +50,7 @@ function Postjob() {
 
   const onSubmit = async (initialValues) => {
     dispatch(JobPosting(initialValues))
-    console.log(initialValues)
+    // console.log(initialValues)
   };
 
 let filenames = ""
@@ -82,77 +65,35 @@ let filenames = ""
     }
 
     filenames = event.target.files[0].name
-    console.log(event.target.files[0].name,"dfghjkjhgfdfg")
+    // console.log(event.target.files[0].name,"dfghjkjhgfdfg")
 
-    // if (event.target.type === "date") {
-    //   filedata["expirationDate"] = event.target.value;
-    // } else {
-    //   let temp = `${typename}_`;
-    //   const filename = temp + new Date().getTime();
-
-    //   if (event.target.files.length > 0 && event.target.files[0]) {
-    //     const extension = event.target.files[0].name.split(".").pop();
-    //     var allowedExtensions = /(\.heic|\.jpeg|\.png|\.pdf)$/i;
-    //     if (!allowedExtensions.exec(`${filename}.${extension}`)) {
-    //      console.log("Upload format only (heic, jpeg, png, pdf)!");
-    //       return false;
-    //     }
-    //     let file = new File(event.target.files, `${filename}.${extension}`);
-
-    //     if (values[`${typename}Expiration`]) {
-    //       filedata["expirationDate"] = values[`${typename}Expiration`];
-    //     }
-    //     if (file) {
-    //       file["orgFileData"] = {
-    //         name: event?.target?.files[0]?.name,
-    //         type: typename,
-    //       };
-    //     }
-
-    //     // if (credentialFiles.length === 0) {
-    //     //   credentialFiles.push(file);
-    //     // } else {
-    //     //   credentialFiles.map((ele, ind) => {
-    //     //     if (ele.name.includes(temp)) {
-    //     //       credentialFiles.splice(ind, 1);
-    //     //     }
-    //     //   });
-    //     //   credentialFiles.push(file);
-    //     // }
-    //   }
-    // }
-
-    // if (credentialPayload.length === 0) {
-    //   credentialPayload.push(filedata);
-    // } else {
-    //   credentialPayload.map((ele, ind) => {
-    //     if (ele.types.includes(typename)) {
-    //       credentialPayload.splice(ind, 1);
-    //     }
-    //   });
-
-    //   credentialPayload.push(filedata);
-    // }
   };
 
 
   const scopework = [
-    { value: "small", label: "small" },
-    { value: "mediun", label: "mediun" },
-    { value: "large", label: "large" },
+    { value: "Small", label: "Small" },
+    { value: "Mediun", label: "Mediun" },
+    { value: "Large", label: "Large" },
   ];
 
   const colourOptions = [
-    { value: "ocean", label: "Ocean", color: "#00B8D9", isFixed: true },
-    { value: "blue", label: "Blue", color: "#0052CC", isDisabled: true },
-    { value: "purple", label: "Purple", color: "#5243AA" },
-    { value: "red", label: "Red", color: "#FF5630", isFixed: true },
-    { value: "orange", label: "Orange", color: "#FF8B00" },
-    { value: "yellow", label: "Yellow", color: "#FFC400" },
-    { value: "green", label: "Green", color: "#36B37E" },
-    { value: "forest", label: "Forest", color: "#00875A" },
-    { value: "slate", label: "Slate", color: "#253858" },
-    { value: "silver", label: "Silver", color: "#666666" },
+    { value: "Web Designing", label: "Web Designing"},
+    { value: "Web Development", label: "Web Development"},
+    { value: "Graphic Designing", label: "Graphic Designing"},
+    { value: "Content Writing", label: "Content Writing"},
+    { value: "Digital Marketing", label: "Digital Marketing" },
+    { value: "Figma Design", label: "Figma Design"},
+    { value: "Website Design", label: "Website Design" },
+    { value: "Reactjs", label: "Reactjs" },
+    { value: "React Native", label: "React Native" },
+    { value: "JavaScripts", label: "JavaScripts" },
+    { value: "Adobe Creative Suit", label: "Adobe Creative Suit" },
+    { value: "Adobe Photoshop", label: "Adobe Photoshop" },
+    { value: "Adobe illustrator", label: "Adobe illustrator" },
+    { value: "Adobe XD", label: "Adobe XD"},
+    { value: "Corel Draw", label: "Corel Draw"},
+    { value: "Project Managment", label: "Project Managment" },
+    { value: "Data Entry", label: "Data Entry" },
   ];
 
   return (
@@ -304,7 +245,8 @@ let filenames = ""
 
                       </Field>
                     </div>
-                    <div className="post-buttons">
+                   <div className="d-flex gap-3">
+                   <div className="post-buttons">
                       <button
                         className=""
                         type="submit"
@@ -314,6 +256,17 @@ let filenames = ""
                       </button>
 
                     </div>
+                    <Link to={`/client/${searchParams.id}`} className="post-buttons btn-red">
+                      <button
+                        className=""
+                        type="submit"
+                        disabled={submitting}
+                      >
+                        Cancel
+                      </button>
+
+                    </Link>
+                   </div>
                   </form>
                 )}
               />

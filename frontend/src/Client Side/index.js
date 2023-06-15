@@ -10,6 +10,7 @@ import {
   useParams,
   
 } from "react-router-dom";
+import GrowExample from "../components/Form/Isloading";
 
 function ClientDashboard() {
   const dispatch = useDispatch();
@@ -24,39 +25,44 @@ function ClientDashboard() {
   }, []);
 
   const data = useSelector((state) => state?.userList?.DataList[0]);
+  const isLoading = useSelector((state) => state?.userList?.isLoading);
+  localStorage.setItem("userData", JSON.stringify(data))
 
   // console.log(data);
 
   return (
-    <>
-      <Navbar />
+  
+<>
+{isLoading && (<GrowExample/>)}
+<Navbar />
 
-      <Container>
-        <Row></Row>
-        <Row className="justify-content-center">
-          <Col md={11} className="offset-md-1">
-            <div className="d-flex justify-content-between">
-              <div className="Top-heading">
-                <h1>Your Dashboard</h1>
+<Container>
+  <Row></Row>
+  <Row className="justify-content-center">
+    <Col md={11} className="offset-md-1">
+      <div className="d-flex justify-content-between">
+        <div className="Top-heading">
+          <h1>Your Dashboard</h1>
 
-                <p>{data?.fullname}</p>
-              </div>
-              <div>
-                <Link to={`/Postjob/${searchParams.id}`}>
-                  <button className="Right-GreenBTn">Post a job</button>
-                </Link>
-              </div>
-            </div>
-          </Col>
-          <Col md={7} className="offset-md-1">
-            <LeftSide client={true} />
-          </Col>
-          <Col md={4}>
-            <RightSide username={data?.fullname} button="Post a Job" />
-          </Col>
-        </Row>
-      </Container>
-    </>
+          <p>{data?.fullname}</p>
+        </div>
+        <div>
+          <Link to={`/Postjob/${searchParams.id}`}>
+            <button className="Right-GreenBTn">Post a job</button>
+          </Link>
+        </div>
+      </div>
+    </Col>
+    <Col md={7} className="offset-md-1">
+      <LeftSide client={true} />
+    </Col>
+    <Col md={4}>
+      <RightSide username={data?.fullname} button="Post a Job" />
+    </Col>
+  </Row>
+</Container></>
+    
+  
   );
 }
 

@@ -341,3 +341,26 @@ width: fit-content;
 padding: 12px 60px 12px 62px;
 margin-top: 45px;
 }
+.btn-red
+{
+  background-color: #ebebeb !important;
+  color:  #868686!important;
+  border: 1px solid #868686 !important;
+}
+
+/* Loader */
+.overlay.spinner
+{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  backdrop-filter: blur(3px);
+}
+.spinner-border
+{
+  width: 100px;
+  height: 100px;
+}
