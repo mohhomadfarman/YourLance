@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import OptionMenu from "../../img/OptionMenu.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { JobdataD } from "../../redux/auctions/JobPostingAction";
 
 function LeftSide(props) {
   const [client, setClient] = useState();
   const [admin, setAdmin] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (props.client) {
@@ -16,11 +19,13 @@ function LeftSide(props) {
     } else {
       setAdmin(false);
     }
-  }, []);
 
+    dispatch(JobdataD(props.Id));
+  }, []);
+  const jobPostdata = useSelector((state) => state?.Jobsearch?.jobData?.Data);
+  console.log(jobPostdata, "st");
   return (
     <>
-   
       <div className="main-container">
         {client === true ? (
           <>
