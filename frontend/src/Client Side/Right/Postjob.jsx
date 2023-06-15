@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import React, { useEffect, useState } from "react";
-import {BiCloudUpload, BiUpload} from 'react-icons/bi';
+import { BiCloudUpload, BiUpload } from 'react-icons/bi';
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { JobPosting } from "../../redux/auctions/JobPostingAction";
@@ -33,7 +33,7 @@ function Postjob() {
 
   const data = useSelector((state) => state?.userList?.DataList[0]);
 
-console.log(data)
+  // console.log(data)
   const validate = (values) => {
     let errors = {};
     if (!values.postjob) {
@@ -61,13 +61,81 @@ console.log(data)
     ScopeOfyourWork: "",
     budget: "",
     Describe: "",
-  
+    img: "",
+
   };
 
   const onSubmit = async (initialValues) => {
     dispatch(JobPosting(initialValues))
     console.log(initialValues)
   };
+
+let filenames = ""
+
+  const handleChange = (event, typename, values) => {
+    let filedata = {
+      types: typename,
+    };
+
+    if (values[`${typename}id`]) {
+      filedata["id"] = values[`${typename}id`];
+    }
+
+    filenames = event.target.files[0].name
+    console.log(event.target.files[0].name,"dfghjkjhgfdfg")
+
+    // if (event.target.type === "date") {
+    //   filedata["expirationDate"] = event.target.value;
+    // } else {
+    //   let temp = `${typename}_`;
+    //   const filename = temp + new Date().getTime();
+
+    //   if (event.target.files.length > 0 && event.target.files[0]) {
+    //     const extension = event.target.files[0].name.split(".").pop();
+    //     var allowedExtensions = /(\.heic|\.jpeg|\.png|\.pdf)$/i;
+    //     if (!allowedExtensions.exec(`${filename}.${extension}`)) {
+    //      console.log("Upload format only (heic, jpeg, png, pdf)!");
+    //       return false;
+    //     }
+    //     let file = new File(event.target.files, `${filename}.${extension}`);
+
+    //     if (values[`${typename}Expiration`]) {
+    //       filedata["expirationDate"] = values[`${typename}Expiration`];
+    //     }
+    //     if (file) {
+    //       file["orgFileData"] = {
+    //         name: event?.target?.files[0]?.name,
+    //         type: typename,
+    //       };
+    //     }
+
+    //     // if (credentialFiles.length === 0) {
+    //     //   credentialFiles.push(file);
+    //     // } else {
+    //     //   credentialFiles.map((ele, ind) => {
+    //     //     if (ele.name.includes(temp)) {
+    //     //       credentialFiles.splice(ind, 1);
+    //     //     }
+    //     //   });
+    //     //   credentialFiles.push(file);
+    //     // }
+    //   }
+    // }
+
+    // if (credentialPayload.length === 0) {
+    //   credentialPayload.push(filedata);
+    // } else {
+    //   credentialPayload.map((ele, ind) => {
+    //     if (ele.types.includes(typename)) {
+    //       credentialPayload.splice(ind, 1);
+    //     }
+    //   });
+
+    //   credentialPayload.push(filedata);
+    // }
+  };
+
+
   const scopework = [
     { value: "small", label: "small" },
     { value: "mediun", label: "mediun" },
@@ -89,9 +157,9 @@ console.log(data)
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <Container>
-        <Row style={{ justifyContent: "center", marginBottom:"48px" }}>
+        <Row style={{ justifyContent: "center", marginBottom: "48px" }}>
           <Col md={8} >
             <div>
               <Form
@@ -107,6 +175,7 @@ console.log(data)
                 }) => (
                   <form className="Post-JobDiv" onSubmit={handleSubmit}>
                     <div>
+                      {console.log(values, "sdfghjhgdsdfgh")}
                       <h1>Get started</h1>
                       <div>
                         <h4>what would you like to do?</h4>
@@ -190,10 +259,14 @@ console.log(data)
                       />
                     </div>
                     <div className="titles-post">
-                   <div  className="uploadinput m-0" values=" Choose File" >
-                    <BiCloudUpload size={35}/>
-                                       <Field name="img" >
-                      {({ input: { value, onChange, ...input } }) => (
+                    <Field name="PostAttachment" >
+                    {({ input: { onChange, ...input }, meta }) => (
+                      <label htmlFor="fileUpload" className="uploadinput m-0" data-text={values.PostAttachment ? values.PostAttachment
+                              : "Upload"
+                             } >
+                        <BiCloudUpload size={35} />
+                        
+                          {/* {({ input: { value, onChange, ...input } }) => (
                         <input
                         className="w-100"
                           {...input}
@@ -203,12 +276,33 @@ console.log(data)
                             const filename =
                               uniqueId + "_" + target.files[0].name;
                             let file = new File(target.files, filename);
+                            console.log(file,"dfghjfygfd")
                             // setFile(file);
-                          }} // instead of the default target.value
+                          }} 
                         />
-                      )}
-                    </Field>
-                   </div>
+                      )} */}
+                      {/* {console.log(values,"ertuiutfdfgutfd")} */}
+                        
+
+                            <input
+                              id="fileUpload"
+                              name="file-upload-field"
+                              value=""
+                              {...input}
+                              type="file"
+                              onChange={(e) => {
+                                onChange(e);
+                                handleChange(e, "PostAttachment", values);
+                              }}
+               
+
+
+                            />
+                       
+                      </label>
+                         )}
+
+                      </Field>
                     </div>
                     <div className="post-buttons">
                       <button
@@ -218,7 +312,7 @@ console.log(data)
                       >
                         Post a Job
                       </button>
-                  
+
                     </div>
                   </form>
                 )}
