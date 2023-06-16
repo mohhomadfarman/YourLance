@@ -10,8 +10,8 @@ const searchProduct = async (req,res)=>{
     try {
         // var search = req.body.search
 
-//    const register_Data = await JobPosting.find({"clientname": {$regex:req.body.search,$options:'i'}}) 
-   const register_Data = await JobPosting.find({clientname: req.body.name}) 
+   const register_Data = await JobPosting.find({"clientname": {$regex:req.body.search,$options:'i'}}) 
+//    const register_Data = await JobPosting.find({clientname: req.body.name}) 
    
 //    const register_Data =    await  registermodel.find({"fullname":  {$regex:".*"+ req.body.search+".*",$options:'i'}})
 

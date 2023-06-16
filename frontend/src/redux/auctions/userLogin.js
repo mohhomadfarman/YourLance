@@ -10,15 +10,18 @@ export const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
-export const loginApi = (data) => async () => {
+// export const loginApi = (data) => async () => {
   
   
-let login = axiosInstance.post("login", data);
+// let login = axiosInstance.post("login", data);
 
-  return login
+//   return login
 
-};
-
+// };
+export const loginApi = createAsyncThunk("login", async (payload) => {
+  const response = await axiosInstance.post(`login`, payload)
+  return response.data;
+})
 // export const getUserDetails = (payload) => async () => {
 //   let UserFetch = axiosInstance.post("usersDetails", payload);
 //     return UserFetch 

@@ -20,6 +20,21 @@ router.use(bodyParser.json());
 router.get("/", (req, res) => {
   res.send("posteed");
 });
+router.post("/api/job-listing", async (req, res) => {
+  const { id } = req.body;
+  const jobListing = await JobPosting.find({ clientId: req.body.id });
+  try {
+    if(jobListing[0]){
+      res.status(200).send(jobListing)
+    }else{
+      res.send([{error: "Post Your First Job!"}]);
+    }
+  }catch{
+    res.status(400).send({ message: error.message });
+    }
+       
+
+});
 
 router.post("/usersDetails", async (req, res) => {
   const { id } = req.body;
@@ -53,7 +68,7 @@ router.post("/login", async (req, res) => {
     } catch {}
 
     if (!UserEmail) {
-      res.send({ err: "User Dose not Exist" });
+      res.send({loginStatus: false, err: "User Dose not Exist" });
     } else if (UserEmail) {
       const LoginVeryfy =
         UserEmail.email === req.body.email &&
@@ -61,7 +76,7 @@ router.post("/login", async (req, res) => {
       if (LoginVeryfy) {
         res.send({ loginStatus: LoginVeryfy, id: UserEmail.id });
       } else if (!LoginVeryfy) {
-        res.send({ err: "Password Dose not match" });
+        res.send({loginStatus: false, err: "Password Dose not match" });
       }
     }
   }
