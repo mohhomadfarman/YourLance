@@ -46,7 +46,7 @@ function LeftSide(props) {
               <span>See All The Posting</span>
             </div>
 
-            {jobPostdata.slice(0, 2).map((items) => {
+            {jobPostdata.slice(0, 3).map((items) => {
               return items.error ? (
                 <p>Do Your First Job Post</p>
               ) : (

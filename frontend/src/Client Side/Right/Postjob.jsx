@@ -226,6 +226,7 @@ let filenames = ""
                         
 
                             <input
+                            multiple="multiple"
                               id="fileUpload"
                               name="file-upload-field"
                               value=""

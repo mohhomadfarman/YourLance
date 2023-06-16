@@ -17,7 +17,7 @@ import { loginApi } from "../../redux/auctions/userLogin";
 import { get } from "mongoose";
 import ClientDashboard from "../../Client Side";
 import GrowExample from "./Isloading";
-
+import jwt from 'jwt-decode'
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +35,9 @@ export default function Login() {
     }
   }, [navigate]);
 
+
+  
+
   const LoginBUtton = async () => {
     setStatus(email === "" && password === "" ? false : true);
     let dataSend = {
@@ -42,26 +45,27 @@ export default function Login() {
       password: password,
       status: status,
     };
-    let localStorageDB = {
-      email: email,
-      password: password,
-      status: status,
-    };
 
-    localStorage.setItem("data", JSON.stringify(localStorageDB));
 
     dispatch(loginApi(dataSend)).then((response) => {
       setGetData(response);
+    
     });
+    localStorage.setItem('token', token);
   };
-  const LoginData = useSelector((state) => [state?.login?.user?.loginStatus,state?.login?.user?.id ]);
+  const token = useSelector((state) => state?.login?.user?.tokenuigiugitygtyigtyi);
   const isLoading = useSelector((state) => state?.login?.isLoading);
 
-  console.log(LoginData)
-  if (LoginData[0]) {
-    navigate(`/client/${LoginData[1]}`);
-    console.log(`/client/${LoginData[1]}`)
-  }
+  
+//   const data = jwt(getData?.payload?.tokenuigiugitygtyigtyi); // decode your token here
+// localStorage.setItem('token', token);
+//   console.log(data.user._id)
+
+  // if (data) {
+  //   const data = jwt(getData?.payload?.tokenuigiugitygtyigtyi);
+  //   navigate(`/client/${data.user._id}`);
+  //   console.log(`/client/${data.user._id}`)
+  // }
 
   return (
     <>
