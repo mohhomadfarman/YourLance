@@ -14,6 +14,6 @@ export const JobPosting = createAsyncThunk("Postjob", async (payload) => {
   return response.data;
 });
 export const JobdataD = createAsyncThunk("JobdataD", async (payload) => {
-  const response = await axiosInstance.get(`api/search`, payload);
+  const response = await axiosInstance.post(`api/job-listing`, payload);
   return response.data;
 });

@@ -7,7 +7,7 @@ const PostSchema = new mongoose.Schema({
     },
     clientId: {
         type: String,
-        required:false
+        required:true
     },
     title: {
         type: String,

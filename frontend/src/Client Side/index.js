@@ -16,22 +16,26 @@ function ClientDashboard() {
   const dataID = {
     id: searchParams.id,
   };
+  const ListingData = {
+    id: searchParams.id,
+  };
+
+
   useEffect(() => {
     dispatch(getUserDetails(dataID));
+    dispatch(JobdataD(ListingData));
 
     console.log(searchParams, "ghghgh");
   }, []);
 
   const data = useSelector((state) => state?.userList?.DataList[0]);
-  const isLoading = useSelector((state) => state?.userList?.isLoading);
-
+  // const isLoading = useSelector((state) => state?.Jobsearch?.isLoading);
   localStorage.setItem("userData", JSON.stringify(data));
 
-  // console.log(data);
 
   return (
     <>
-      {isLoading && <GrowExample />}
+      {/* {isLoading && <GrowExample />} */}
       <Navbar />
 
       <Container>
@@ -40,7 +44,7 @@ function ClientDashboard() {
           <Col md={11} className="offset-md-1">
             <div className="d-flex justify-content-between">
               <div className="Top-heading">
-                <h1>Your Dashboard</h1>
+                <h1>Your Dashboard</h1> 
 
                 <p>{data?.fullname}</p>
               </div>
@@ -52,7 +56,7 @@ function ClientDashboard() {
             </div>
           </Col>
           <Col md={7} className="offset-md-1">
-            <LeftSide Id={searchParams.id} client={true} />
+            <LeftSide  Id={searchParams.id} client={true} />
           </Col>
           <Col md={4}>
             <RightSide username={data?.fullname} button="Post a Job" />

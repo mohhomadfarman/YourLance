@@ -54,25 +54,20 @@ export default function Login() {
       setGetData(response);
     });
   };
-  const loading = useSelector((state) => state?.login?.isLoading);
-  console.log(loading);
+  const LoginData = useSelector((state) => [state?.login?.user?.loginStatus,state?.login?.user?.id ]);
+  const isLoading = useSelector((state) => state?.login?.isLoading);
 
-  const LoginErr = getData && getData.data;
-  console.log(LoginErr);
-  if (getData && LoginErr.loginStatus === true) {
-    // localStorage.setItem("Login Status", "true");
-    navigate(`/client/${LoginErr.id}`);
+  console.log(LoginData)
+  if (LoginData[0]) {
+    navigate(`/client/${LoginData[1]}`);
+    console.log(`/client/${LoginData[1]}`)
   }
-  console.log(email, "ggggggggggggggggggg");
 
   return (
     <>
-      {loading === true ? (
-        <h1>
-          hellllooooooooooooooooo
+      {isLoading && (
           <GrowExample />
-        </h1>
-      ) : (
+      )} 
         <Flex minH={"100vh"} align={"center"} justify={"center"}>
           <Stack
             className="Boxx_13"
@@ -119,11 +114,11 @@ export default function Login() {
                     placeholder="Enter the Password..."
                   />
                 </FormControl>
-                {getData && !LoginErr.loginStatus === false ? (
+                {/* {getData && !LoginErr.loginStatus === false ? (
                   <p className="alert-danger">{LoginErr.err}</p>
                 ) : (
                   ""
-                )}
+                )} */}
 
                 <Stack spacing={10}>
                   <Button
@@ -142,7 +137,7 @@ export default function Login() {
             </Box>
           </Stack>
         </Flex>
-      )}
+      
     </>
   );
 }

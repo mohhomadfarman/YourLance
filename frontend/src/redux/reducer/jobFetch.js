@@ -7,7 +7,7 @@ const initialState = {
   jobData: [],
   error: "",
 };
-const jobsearchSlice = createSlice({
+const jobsearchfetch = createSlice({
   name: "userData",
   initialState,
 
@@ -28,4 +28,4 @@ const jobsearchSlice = createSlice({
   },
 });
 
-export default jobsearchSlice.reducer;
+export default jobsearchfetch.reducer;
