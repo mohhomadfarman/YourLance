@@ -11,7 +11,6 @@ export const RegisterApi = (data) => async () => {
   
   
 let data2=   axiosInstance.post("register", data);
-console.log(data2,'eeeeeeeeeeeeeeeeeeeee')
 
   return data2
 

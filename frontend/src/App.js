@@ -1,52 +1,25 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
-import {
-  Route,
-  Routes,
-} from "react-router-dom";
+import { useRoutes } from "react-router-dom";
+import { defaultProtect, protect } from "./utils/Routes";
+import { withoutAuthRoute } from "./utils/helper";
 
-import Dashboard from "./components/Dashboard";
-import Login from "./components/Form/Login";
-import Register from "./components/Form";
-import ClientDashboard from "./Client Side";
-import Postjob from "./Client Side/Right/Postjob";
-import Home from "./Home";
-import { useDispatch, useSelector } from "react-redux";
 
 function App() {
+  const routing = useRoutes(protect);
 
-const LocalData = JSON.parse(localStorage.getItem("data")) ? JSON.parse(localStorage.getItem("data")) : false 
-console.log(LocalData.email)
+  let pathName = window.location.pathname
+    .toLowerCase()
+    .replace(/^\/|\/$/g, "")
+    .split("/");
 
-// if(LocalData){
-//   const dataSend = {
-//   email: LocalData.email,
-//   password: LocalData.password,
-//   status: true,
-// }
-//   dispatch(loginApi(dataSend));
-// }else{
-
-// }
-
-  const isLogin = useSelector((state) => state?.login?.user?.loginStatus);
-
-  return (
-    <div className="App">
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/Login" element={<Login />} />
-        <Route exact path="/register" element={<Register />} />
-      
-            <Route exact path="/client/:id" element={<ClientDashboard />} />
-            <Route exact path="/dashboard" element={<Dashboard />} />
-            <Route exact path="/Postjob/:id" element={<Postjob />} />
-       
-          <Route exact path="*" element={"no Page Found"} />
-     
-      </Routes>
-    </div>
+  let checkIsWithoutAuthRoute = withoutAuthRoute.includes(
+    pathName && pathName.length > 0 ? pathName[0] : "--"
   );
-}
 
+  const defaultRouting = useRoutes(defaultProtect);
+
+  if (checkIsWithoutAuthRoute) {
+    return <>{defaultRouting}</>;
+  }
+  return <>{routing}</>;
+}
 export default App;

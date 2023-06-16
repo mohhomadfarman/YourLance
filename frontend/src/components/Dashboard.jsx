@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 function Dashboard() {
   let UserName = JSON.parse(localStorage.getItem("data"));
 
-  // console.log(UserName)
 
   return (
     <div>
