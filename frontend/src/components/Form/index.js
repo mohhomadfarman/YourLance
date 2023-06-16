@@ -228,10 +228,7 @@ export default function Register() {
                   ""
                 )}
 
-                {console.log(
-                  status && !err && !email && !mobile ? true : false,
-                  "dfghhhhhhhhhhhhhhhhhhhhhhhh"
-                )}
+             
 
                 {status && (
                   <>

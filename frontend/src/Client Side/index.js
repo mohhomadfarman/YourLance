@@ -8,16 +8,18 @@ import { getUserDetails } from "../redux/auctions/userLogin";
 import { Link, useParams } from "react-router-dom";
 import GrowExample from "../components/Form/Isloading";
 import { JobdataD } from "../redux/auctions/JobPostingAction";
+import jwtDecode from "jwt-decode";
 
 function ClientDashboard() {
   const dispatch = useDispatch();
   const searchParams = useParams();
 
+  const userData = jwtDecode(localStorage.getItem("token"))
   const dataID = {
-    id: searchParams.id,
+    id: userData.user._id,
   };
   const ListingData = {
-    id: searchParams.id,
+    id: userData.user._id,
   };
 
 
@@ -25,17 +27,17 @@ function ClientDashboard() {
     dispatch(getUserDetails(dataID));
     dispatch(JobdataD(ListingData));
 
-    console.log(searchParams, "ghghgh");
   }, []);
 
   const data = useSelector((state) => state?.userList?.DataList[0]);
-  // const isLoading = useSelector((state) => state?.Jobsearch?.isLoading);
-  localStorage.setItem("userData", JSON.stringify(data));
+  const isLoading = useSelector((state) => state?.Jobsearch?.isLoading);
 
+
+  
 
   return (
     <>
-      {/* {isLoading && <GrowExample />} */}
+      {isLoading && <GrowExample />}
       <Navbar />
 
       <Container>
@@ -49,7 +51,7 @@ function ClientDashboard() {
                 <p>{data?.fullname}</p>
               </div>
               <div>
-                <Link to={`/Postjob/${searchParams.id}`}>
+                <Link to={`/post-job`}>
                   <button className="Right-GreenBTn">Post a job</button>
                 </Link>
               </div>

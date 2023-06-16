@@ -14,9 +14,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import RegisterImage from "../../img/Register.jpg";
 import { loginApi } from "../../redux/auctions/userLogin";
-import { get } from "mongoose";
-import ClientDashboard from "../../Client Side";
 import GrowExample from "./Isloading";
+import { getToken, getUserId } from "../../utils/auth";
+import jwtDecode from "jwt-decode";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -33,7 +33,14 @@ export default function Login() {
     if (Pagevalidation === true) {
       navigate("/client");
     }
+
+    // if(isLoggedIn){
+    //   navigate(`/client/dfdsfduds8df788`)
+    // }
   }, [navigate]);
+
+
+  
 
   const LoginBUtton = async () => {
     setStatus(email === "" && password === "" ? false : true);
@@ -42,26 +49,31 @@ export default function Login() {
       password: password,
       status: status,
     };
-    let localStorageDB = {
-      email: email,
-      password: password,
-      status: status,
-    };
-
-    localStorage.setItem("data", JSON.stringify(localStorageDB));
 
     dispatch(loginApi(dataSend)).then((response) => {
       setGetData(response);
+      token !== undefined ? localStorage.setItem('token',  token): localStorage.clear()
+        
+          if(!isLoading){
+            const userdata = jwtDecode(token)
+               if(token){
+                window.location.href = `/client/${userdata.user._id}`;
+              }
+          }
+          
     });
+  //   setTimeout(()=>{
+
+  // },1000)
+
+    
+    
   };
-  const LoginData = useSelector((state) => [state?.login?.user?.loginStatus,state?.login?.user?.id ]);
+
+  
+  const token = useSelector((state) => state?.login?.user?.tokenuigiugitygtyigtyi);
   const isLoading = useSelector((state) => state?.login?.isLoading);
 
-  console.log(LoginData)
-  if (LoginData[0]) {
-    navigate(`/client/${LoginData[1]}`);
-    console.log(`/client/${LoginData[1]}`)
-  }
 
   return (
     <>
@@ -95,6 +107,8 @@ export default function Login() {
               <Heading fontSize={"4xl"}>Login To Your Account</Heading>
             </Stack>
             <Box rounded={"xl"} boxShadow={"lg"} p={8}>
+          {token && token !== undefined && (<p>Login Again</p>)}
+
               <Stack spacing={4}>
                 <FormControl id="email">
                   <FormLabel>Email address</FormLabel>

@@ -27,8 +27,7 @@ function LeftSide(props) {
     }
   }, []);
 
-  console.log(jobPostdata);
-  // const JobListing = props?.data
+  
 
   return (
     <>
@@ -46,11 +45,11 @@ function LeftSide(props) {
               <span>See All The Posting</span>
             </div>
 
-            {jobPostdata.slice(0, 2).map((items) => {
+            {jobPostdata.slice(0, 3).map((items,index) => {
               return items.error ? (
                 <p>Do Your First Job Post</p>
               ) : (
-                <div className="jobPosting pointer">
+                <div key={index} className="jobPosting pointer">
                   <div>
                     <p>{items.title}</p>
                     <p>Posted 8 min ago</p>

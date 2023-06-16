@@ -1,8 +1,8 @@
 const express = require("express");
 const User = require("../modals/userSchema");
 const JobPosting = require("../modals/JobPostingSchema");
-
-
+const jwt = require('jsonwebtoken')
+const secretkey="secretkey" 
 const router = express.Router();
 
 const Middelware = (req, res, next) => {
@@ -16,6 +16,10 @@ const bodyParser = require("body-parser");
 // Apply body-parser middleware
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
+
+
+
+
 
 router.get("/", (req, res) => {
   res.send("posteed");
@@ -74,7 +78,12 @@ router.post("/login", async (req, res) => {
         UserEmail.email === req.body.email &&
         UserEmail.password === req.body.password;
       if (LoginVeryfy) {
-        res.send({ loginStatus: LoginVeryfy, id: UserEmail.id });
+        // res.send({ loginStatus: LoginVeryfy, id: UserEmail.id });
+        const token = jwt.sign({user:UserEmail},secretkey,{expiresIn:"8h"}) 
+
+        res.json({loginStatus: LoginVeryfy,tokenuigiugitygtyigtyi:token})    
+    
+        console.log(token,"okkkkkk") 
       } else if (!LoginVeryfy) {
         res.send({loginStatus: false, err: "Password Dose not match" });
       }

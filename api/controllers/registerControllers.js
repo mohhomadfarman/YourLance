@@ -27,7 +27,8 @@ const UserRegister = expressAsyncHandler(async (req, res) => {
     email: req.body.email,
     password: req.body.password,
     mobile: req.body.mobile,
-    otp: otp
+    otp: otp,
+    role: "client"
   });
 
   let EmailTamplate =  `<div> <h4> Hi ${fullname}</h4> <h4> Your Email: ${email}</h4><p>Do Not Share Your OTP, Enter This OTP <b>${otp}</b> </p> </div>`;

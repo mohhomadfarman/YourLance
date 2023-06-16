@@ -5,11 +5,15 @@ import searchImg from "../../img/Search.svg";
 import themeImg from "../../img/Theme.png";
 import NotificationImg from "../../img/Notification.png";
 import historyImg from "../../img/history.png";
+import Logout from "../../img/logout.svg";
 import { theme } from "@chakra-ui/react";
 
 function Navbar() {
   const [search, setSearch] = useState();
-  
+  function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  }
   return (
     <Container>
       <Row>
@@ -42,6 +46,9 @@ function Navbar() {
             </span>
             <span className="pointer">
               <img src={NotificationImg} alt="" />
+            </span>
+            <span onClick={logout} className="pointer">
+              <img src={Logout} alt="" />
             </span>
           </div>
         </nav>

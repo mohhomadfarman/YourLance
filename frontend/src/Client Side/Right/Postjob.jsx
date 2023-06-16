@@ -4,19 +4,21 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import React, { useEffect, useState } from "react";
-import { BiCloudUpload, BiUpload } from 'react-icons/bi';
+import React from "react";
+import { BiCloudUpload } from 'react-icons/bi';
 import Select from "react-select";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector  } from "react-redux";
 import { JobPosting } from "../../redux/auctions/JobPostingAction";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import jwtDecode from "jwt-decode";
+import GrowExample from "../../components/Form/Isloading";
 function Postjob() {
 
   const dispatch = useDispatch()
 
-  const searchParams = useParams();
-  const userData = JSON.parse(localStorage.getItem("userData"))
+
+  const userData = jwtDecode(localStorage.getItem("token"))
   const validate = (values) => {
     let errors = {};
     if (!values.postjob) {
@@ -36,9 +38,11 @@ function Postjob() {
     }
   };
 
+  const isLoading = useSelector((state)=> state?.Jobposting?.isLoading)  
+
   const initialValues = {
-    clientname: userData.fullname,
-    clientId: searchParams.id,
+    clientname: userData.user.fullname,
+    clientId: userData.user._id,
     title: "",
     AddSkills: "",
     ScopeOfyourWork: "",
@@ -50,10 +54,9 @@ function Postjob() {
 
   const onSubmit = async (initialValues) => {
     dispatch(JobPosting(initialValues))
-    // console.log(initialValues)
   };
 
-let filenames = ""
+
 
   const handleChange = (event, typename, values) => {
     let filedata = {
@@ -62,10 +65,7 @@ let filenames = ""
 
     if (values[`${typename}id`]) {
       filedata["id"] = values[`${typename}id`];
-    }
-
-    filenames = event.target.files[0].name
-    // console.log(event.target.files[0].name,"dfghjkjhgfdfg")
+    } 
 
   };
 
@@ -100,6 +100,7 @@ let filenames = ""
     <>
       <Navbar />
       <Container>
+        {isLoading && (<GrowExample/>)}
         <Row style={{ justifyContent: "center", marginBottom: "48px" }}>
           <Col md={8} >
             <div>
@@ -116,7 +117,6 @@ let filenames = ""
                 }) => (
                   <form className="Post-JobDiv" onSubmit={handleSubmit}>
                     <div>
-                      {console.log(values, "sdfghjhgdsdfgh")}
                       <h1>Get started</h1>
                       <div>
                         <h4>what would you like to do?</h4>
@@ -226,6 +226,7 @@ let filenames = ""
                         
 
                             <input
+                              multiple="multiple"
                               id="fileUpload"
                               name="file-upload-field"
                               value=""
@@ -256,7 +257,7 @@ let filenames = ""
                       </button>
 
                     </div>
-                    <Link to={`/client/${searchParams.id}`} className="post-buttons btn-red">
+                    <Link to={`/client`} className="post-buttons btn-red">
                       <button
                         className=""
                         type="submit"
