@@ -4,6 +4,7 @@ const JobPosting = require("../modals/JobPostingSchema");
 const jwt = require('jsonwebtoken')
 const secretkey="secretkey" 
 const router = express.Router();
+// const upload = multer({ dest: 'uploads/' })
 
 const Middelware = (req, res, next) => {
   // console.log("object")
@@ -12,11 +13,12 @@ const Middelware = (req, res, next) => {
 };
 
 const bodyParser = require("body-parser");
+const MediaUpload = require("../modals/FileUploadSchema");
+const { upload } = require("../middelwaer/diskStorage");
 
 // Apply body-parser middleware
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
-
 
 
 
@@ -90,6 +92,21 @@ router.post("/login", async (req, res) => {
     }
   }
 });
+
+router.post("/api/upload", upload.single('fileUploadField'), async (req, res) => {  
+console.log(req.body)
+console.log(req.file)
+let employee = new MediaUpload({
+ name: req.file.originalname,
+ClientId: req.body.ClientId,
+fileUploadField: req.file.path
+});
+const dataToSave = await employee.save();
+
+res.send(dataToSave)
+
+});
+
 
 
 

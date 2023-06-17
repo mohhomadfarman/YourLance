@@ -9,6 +9,10 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required:true
     },
+    mediaID: {
+        type:Array,
+        required:true
+    },
     title: {
         type: String,
         required:true

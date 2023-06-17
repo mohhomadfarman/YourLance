@@ -10,14 +10,7 @@ export const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
-// export const loginApi = (data) => async () => {
-  
-  
-// let login = axiosInstance.post("login", data);
 
-//   return login
-
-// };
 export const loginApi = createAsyncThunk("login", async (payload) => {
   const response = await axiosInstance.post(`login`, payload)
   return response.data;

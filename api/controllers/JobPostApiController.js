@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 const JobPostApiController = expressAsyncHandler(async (req, res) => {
-    const { clientname, clientId,title,AddSkills,ScopeOfyourWork,budget,Describe } = req.body;
+    const { clientname,mediaID, clientId,title,AddSkills,ScopeOfyourWork,budget,Describe } = req.body;
 
     const data = new JobPosting({
         clientname: req.body.clientname,
@@ -15,6 +15,7 @@ const JobPostApiController = expressAsyncHandler(async (req, res) => {
         ScopeOfyourWork: req.body.ScopeOfyourWork,
         budget: req.body.budget,
         Describe: req.body.Describe,
+        mediaID: req.body.mediaID
       });
 
       try {
@@ -26,4 +27,4 @@ const JobPostApiController = expressAsyncHandler(async (req, res) => {
       }
 })
 
-module.exports = { JobPostApiController };
+module.exports = { JobPostApiController };  

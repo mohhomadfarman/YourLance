@@ -4,19 +4,19 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import React from "react";
+import React, { useState } from "react";
 import { BiCloudUpload } from 'react-icons/bi';
 import Select from "react-select";
 import { useDispatch, useSelector  } from "react-redux";
-import { JobPosting } from "../../redux/auctions/JobPostingAction";
+import { JobPosting, MediaUploads } from "../../redux/auctions/JobPostingAction";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import jwtDecode from "jwt-decode";
 import GrowExample from "../../components/Form/Isloading";
+import axios from "axios";
 function Postjob() {
 
   const dispatch = useDispatch()
-
 
   const userData = jwtDecode(localStorage.getItem("token"))
   const validate = (values) => {
@@ -40,24 +40,9 @@ function Postjob() {
 
   const isLoading = useSelector((state)=> state?.Jobposting?.isLoading)  
 
-  const initialValues = {
-    clientname: userData.user.fullname,
-    clientId: userData.user._id,
-    title: "",
-    AddSkills: "",
-    ScopeOfyourWork: "",
-    budget: "",
-    Describe: "",
-    img: "",
-
-  };
-
-  const onSubmit = async (initialValues) => {
-    dispatch(JobPosting(initialValues))
-  };
-
-
-
+ 
+  const mediaArry = []
+const filesNames = []
   const handleChange = (event, typename, values) => {
     let filedata = {
       types: typename,
@@ -66,6 +51,25 @@ function Postjob() {
     if (values[`${typename}id`]) {
       filedata["id"] = values[`${typename}id`];
     } 
+    const myfilesname = event.target.files[0].name;
+    filesNames.push(myfilesname)
+    console.log(filesNames,"ghjkgfghjk")
+
+    const file = event.target.files[0];
+
+
+    const formData = new FormData();
+    formData.append('fileUploadField', file);
+  
+    axios.post("http://localhost:4000/api/upload",formData).then((res)=>{
+      console.log(res.data.name)
+      let mediaList = {
+        mediaID: res?.data?._id,
+        filename: res?.data?.name
+      }
+      mediaArry.push(mediaList)
+    })
+  console.log(mediaArry) 
 
   };
 
@@ -95,6 +99,43 @@ function Postjob() {
     { value: "Project Managment", label: "Project Managment" },
     { value: "Data Entry", label: "Data Entry" },
   ];
+  
+  
+
+// const handleFileUpload = (event) => {
+//   const file = event.target.files[0];
+//   const formData = new FormData();
+//   formData.append('fileUploadField', file);
+
+//   axios.post("http://localhost:4000/api/upload",formData).then((res)=>{
+//     console.log(res.data._id)
+//     let mediaList = {
+//       mediaID: res.data._id
+//     }
+//     mediaArry.push(mediaList)
+//   })
+// console.log(mediaArry) 
+// };
+
+const initialValues = {
+  clientname: userData.user.fullname,
+  clientId: userData.user._id,
+  title: "",
+  AddSkills: "",
+  ScopeOfyourWork: "",
+  budget: "",
+  Describe: "",
+  mediaID: mediaArry,
+
+};
+
+const onSubmit = async (initialValues) => {
+  dispatch(JobPosting(initialValues))
+  console.log(initialValues)
+};
+
+
+
 
   return (
     <>
@@ -105,6 +146,7 @@ function Postjob() {
           <Col md={8} >
             <div>
               <Form
+              
                 onSubmit={onSubmit}
                 initialValues={initialValues}
                 validate={validate}
@@ -115,7 +157,7 @@ function Postjob() {
                   pristine,
                   values,
                 }) => (
-                  <form className="Post-JobDiv" onSubmit={handleSubmit}>
+                  <form  className="Post-JobDiv" onSubmit={handleSubmit}>
                     <div>
                       <h1>Get started</h1>
                       <div>
@@ -202,8 +244,7 @@ function Postjob() {
                     <div className="titles-post">
                     <Field name="PostAttachment" >
                     {({ input: { onChange, ...input }, meta }) => (
-                      <label htmlFor="fileUpload" className="uploadinput m-0" data-text={values.PostAttachment ? values.PostAttachment
-                              : "Upload"
+                      <label htmlFor="fileUpload" className="uploadinput m-0" data-text={"Upload"
                              } >
                         <BiCloudUpload size={35} />
                         
@@ -229,6 +270,7 @@ function Postjob() {
                               multiple="multiple"
                               id="fileUpload"
                               name="file-upload-field"
+                              className="mb-5"
                               value=""
                               {...input}
                               type="file"
@@ -240,12 +282,24 @@ function Postjob() {
 
 
                             />
-                       
+                          
+
                       </label>
                          )}
 
                       </Field>
                     </div>
+                    <div className="titles-post">
+                      <div  className="d-flex flex-column"> 
+                      {filesNames?.map((media, index)=>{
+                         return( 
+                         <div key={index}  className="  py-2 w-100">
+                         <p className="mb-0 ml-3 fs-5">{media}</p>
+                         </div>
+                         )
+                       })}
+                      </div>
+                      </div>
                    <div className="d-flex gap-3">
                    <div className="post-buttons">
                       <button
@@ -268,7 +322,11 @@ function Postjob() {
 
                     </Link>
                    </div>
+                  
+                   
                   </form>
+
+
                 )}
               />
             </div>

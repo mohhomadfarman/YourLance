@@ -6,6 +6,7 @@ var cors = require('cors')
 const registerRoutes = require("./router/registerRoutes");
 const searchRoutes = require('./router/searchAPI');
 const JobpostApi = require('./router/JobpostApi');
+const FileUploadApi = require('./router/FileUpload');
 app.use(cors())
 
 const DBLogin =  process.env.DATABASE;
@@ -13,6 +14,8 @@ const DBLogin =  process.env.DATABASE;
 
 
 app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+
 dotenv.config();
 
 
@@ -30,6 +33,7 @@ app.use(require('./router/auth'));
 app.use("/api", registerRoutes);
 app.use("/api", searchRoutes);
 app.use("/api", JobpostApi);
+// app.use("/api", FileUploadApi);
 
 
 const PORT = process.env.PORT;
