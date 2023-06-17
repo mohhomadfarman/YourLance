@@ -55,9 +55,8 @@ export default function Login() {
       token !== undefined ? localStorage.setItem('token',  token): localStorage.clear()
         
           if(!isLoading){
-            const userdata = jwtDecode(token)
                if(token){
-                window.location.href = `/client/${userdata.user._id}`;
+                window.location.href = `/client`;
               }
           }
           
