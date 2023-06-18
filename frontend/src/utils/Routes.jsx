@@ -7,6 +7,7 @@ import Register from "../components/Form";
 import Postjob from "../Client Side/Right/Postjob";
 import Layout from "./Layout";
 import LoginLayout from "./LoginLayout";
+import SearchPostPage from "../Client Side/Searchpage";
 
 const role = getUserId() ? getUserId()?.user?.role : null;
 const isLoggedIn = getToken();
@@ -20,6 +21,7 @@ const protects = {
         { path: "/", element: <ClientDashboard/> },
         { path: "/client", element: <ClientDashboard/> },
         { path: "/post-job", element: <Postjob/> },
+        {path:"/Search", element: <SearchPostPage/>},
         { path: "*", element: <div>no page found</div> },
         ],
       },
