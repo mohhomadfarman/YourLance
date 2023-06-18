@@ -10,9 +10,9 @@ export const axiosInstance = axios.create({
 });
 export const axiosInstances = axios.create({
   baseURL: CurrentApi,
-    headers: {
+  headers: {
     "Content-Type": "application/json",
-    "type": "formData"
+    type: "formData",
   },
 });
 
@@ -26,5 +26,9 @@ export const JobdataD = createAsyncThunk("JobdataD", async (payload) => {
 });
 export const MediaUploads = createAsyncThunk("mediaUplad", async (payload) => {
   const response = await axiosInstances.post(`api/upload`, payload);
+  return response.data;
+});
+export const jobsearch = createAsyncThunk("jobsearch", async (payload) => {
+  const response = await axiosInstance.get(`api/search`, payload);
   return response.data;
 });

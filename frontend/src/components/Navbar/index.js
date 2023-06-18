@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Form, InputGroup, NavLink, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import searchImg from "../../img/Search.svg";
@@ -7,9 +7,29 @@ import NotificationImg from "../../img/Notification.png";
 import historyImg from "../../img/history.png";
 import Logout from "../../img/logout.svg";
 import { theme } from "@chakra-ui/react";
+import { jobsearch } from "../../redux/auctions/JobPostingAction";
+import { useDispatch, useSelector } from "react-redux";
+import { debounce } from "lodash";
 
 function Navbar() {
   const [search, setSearch] = useState();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    jobsearch();
+  }, []);
+
+  const debounceCall = debounce((ele) => {
+    dispatch(
+      jobsearch({
+        search: ele,
+      })
+    );
+    console.log(ele, "fffffffffffffffffffffffffff");
+  }, 700);
+
+  const serachjob = useSelector((state) => state);
+
+  console.log(serachjob, "gopal buhhuhu state ");
   function logout() {
     localStorage.removeItem("token");
     window.location.href = "/";
@@ -34,7 +54,11 @@ function Navbar() {
                 placeholder="Search"
                 aria-label="Username"
                 aria-describedby="basic-addon1"
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={
+                  (e) => debounceCall(e.target.value)
+
+                  //  debounceCall(ele.target.value);
+                }
               />
             </InputGroup>
             {/* <span><Link to="/home"> home </Link></span> */}
