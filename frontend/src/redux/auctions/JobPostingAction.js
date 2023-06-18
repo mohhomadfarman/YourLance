@@ -28,7 +28,11 @@ export const MediaUploads = createAsyncThunk("mediaUplad", async (payload) => {
   const response = await axiosInstances.post(`api/upload`, payload);
   return response.data;
 });
-export const jobsearch = createAsyncThunk("jobsearch", async (payload) => {
-  const response = await axiosInstance.get(`api/search`, payload);
+export const jobSearch = createAsyncThunk("Search", async (payload) => {
+  const response = await axiosInstance.post(`api/search`, payload);
   return response.data;
 });
+// export const jobsearch = createAsyncThunk("jobsearch", async (payload) => {
+//   const response = await axiosInstance.get(`api/search`, payload);
+//   return response.data;
+// });

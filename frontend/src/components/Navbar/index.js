@@ -1,35 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container, Form, InputGroup, NavLink, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import searchImg from "../../img/Search.svg";
 import themeImg from "../../img/Theme.png";
 import NotificationImg from "../../img/Notification.png";
 import historyImg from "../../img/history.png";
 import Logout from "../../img/logout.svg";
-import { theme } from "@chakra-ui/react";
-import { jobsearch } from "../../redux/auctions/JobPostingAction";
-import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "lodash";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { jobSearch } from "../../redux/auctions/JobPostingAction";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [search, setSearch] = useState();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    jobsearch();
-  }, []);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const debounceCall = debounce((ele) => {
-    dispatch(
-      jobsearch({
-        search: ele,
-      })
-    );
-    console.log(ele, "fffffffffffffffffffffffffff");
-  }, 700);
 
-  const serachjob = useSelector((state) => state);
+const debounceCall = debounce((ele) => {
+let SearchValues = {
+    search: ele
+  }
+dispatch(jobSearch(SearchValues))
 
-  console.log(serachjob, "gopal buhhuhu state ");
+  SearchData?.success === true && navigate("/Search")
+
+
+}, 700);
+
+
+const isLoading = useSelector((state) => state?.jobSearch?.isLoading);
+const SearchData = useSelector((state) => state?.jobSearch?.SearchJobsData);
+
+console.log(isLoading)
+
+
+
   function logout() {
     localStorage.removeItem("token");
     window.location.href = "/";
@@ -39,7 +45,7 @@ function Navbar() {
       <Row>
         <nav className="main nav-bar-hero">
           <div className="nav-logo">
-            <span className="pointer">LOGO</span>
+           <Link to="/"><span className="pointer">LOGO</span></Link>
           </div>
           <div className="nav-menu">
             <InputGroup className="input-group-1 ">
@@ -57,7 +63,7 @@ function Navbar() {
                 onChange={
                   (e) => debounceCall(e.target.value)
 
-                  //  debounceCall(ele.target.value);
+                
                 }
               />
             </InputGroup>

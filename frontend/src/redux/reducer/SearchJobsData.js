@@ -1,27 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import {  jobsearch } from "../auctions/JobPostingAction";
+import { jobSearch } from "../auctions/JobPostingAction";
 
 const initialState = {
   isLoading: false,
   jobData: [],
   error: "",
 };
-const searchDataSlice = createSlice({
-  name: "userData",
+const SearchJobsData = createSlice({
+  name: "MediaUpload",
   initialState,
 
   extraReducers: (bulider) => {
-    bulider.addCase(jobsearch.pending, (state, action) => {
+    bulider.addCase(jobSearch.pending, (state, action) => {
       state.isLoading = true;
       state.error = null;
     });
-    bulider.addCase(jobsearch.fulfilled, (state, action) => {
+    bulider.addCase(jobSearch.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.jobData = action?.payload;
+      state.SearchJobsData = action?.payload;
       state.error = "";
     });
-    bulider.addCase(jobsearch.rejected, (state, action) => {
+    bulider.addCase(jobSearch.rejected, (state, action) => {
       state.error = "";
       state.isLoading = false;
     });
@@ -29,4 +28,4 @@ const searchDataSlice = createSlice({
 });
 
 // export const  = jobDataSlice.actions;
-export default searchDataSlice.reducer;
+export default SearchJobsData.reducer;

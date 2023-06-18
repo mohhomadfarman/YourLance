@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import ClientDashboard from "../Client Side";
+import Navbar from "../components/Navbar";
+
 
 
 const Layout = () => {
@@ -8,6 +10,7 @@ const Layout = () => {
 
   return token ? (
     <>
+    <Navbar/>
     <Outlet />
     </>
   ) : (
