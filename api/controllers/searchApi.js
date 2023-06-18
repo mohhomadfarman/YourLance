@@ -1,12 +1,12 @@
 
 const JobPosting = require("../modals/JobPostingSchema");
-const searchProduct = async (req,res)=>{
+const searchApiController = async (req,res)=>{
 
-    const {name} = req.body;
+    const {name,search} = req.body;
     
     try {
 
-   const register_Data = await JobPosting.find({"title": {$regex:req.body.search,$options:'i'}}) 
+   const register_Data = await JobPosting.find({title: req.body.search}) 
 
 
        if(register_Data.length > 0) {
@@ -19,6 +19,6 @@ res.status(200).send({success:true,msg:"registration details",Data:register_Data
         res.status(400).send({success:false,message:error.message})
     }
 }
-module.exports= searchProduct;
+module.exports= searchApiController;
 
 
