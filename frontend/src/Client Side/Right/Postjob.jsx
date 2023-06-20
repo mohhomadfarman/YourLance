@@ -19,7 +19,8 @@ import { CurrentApi } from "../../config/config";
 function Postjob() {
 
   const dispatch = useDispatch()
-  const [filesSet, SetFileSet] = useState([])
+  // const [filesSet, SetFileSet] = useState([])
+  const [mediaArryFile, SetMediaArryFile] = useState([])
 
   useEffect(() => {
 
@@ -49,7 +50,7 @@ function Postjob() {
 
 
   const mediaArry = []
-  const filesNames = []
+
   const handleChange = (event, typename, values) => {
     let filedata = {
       types: typename,
@@ -58,11 +59,7 @@ function Postjob() {
     if (values[`${typename}id`]) {
       filedata["id"] = values[`${typename}id`];
     }
-    const myfilesname = event.target.files[0].name;
-    let x = filesSet
-    x.push(myfilesname)
-    SetFileSet(x)
-    // console.log(filesNames, "ghjkgfghjk")
+
 
     const file = event.target.files[0];
 
@@ -77,8 +74,13 @@ function Postjob() {
         filename: res?.data?.name
       }
       mediaArry.push(mediaList)
+
+    let a = [...mediaArryFile]
+    a.push(mediaList)
+    SetMediaArryFile(a)
+    console.log(a,"mediaArry")
+
     })
-    // console.log(mediaArry,"mediaArry")
 
   };
 
@@ -110,22 +112,6 @@ function Postjob() {
   ];
 
 
-
-  // const handleFileUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append('fileUploadField', file);
-
-  //   axios.post("http://localhost:4000/api/upload",formData).then((res)=>{
-  //     console.log(res.data._id)
-  //     let mediaList = {
-  //       mediaID: res.data._id
-  //     }
-  //     mediaArry.push(mediaList)
-  //   })
-  // console.log(mediaArry) 
-  // };
-
   const initialValues = {
     clientname: userData.user.fullname,
     clientId: userData.user._id,
@@ -134,7 +120,7 @@ function Postjob() {
     ScopeOfyourWork: "",
     budget: "",
     Describe: "",
-    mediaID: mediaArry,
+    mediaID: mediaArryFile,
 
   };
 
@@ -144,27 +130,13 @@ function Postjob() {
   };
 
 
-  // const deleteElementById = (arr, id) => {
-  //   return arr.filter(item => item.id !== id);
-  // };
 
-  //  const =(media)=>{
+  const deletemepost = (index,id) => {
+    const FileDelete = [...mediaArryFile]
+    FileDelete.splice(index, 1)
+    SetMediaArryFile(FileDelete)
 
-
-  //  }
-
-
-
-  //   const deletemepost = (filesNames, index) => {
-
-
-  // console.log(index,"hklkjhghjkjghj")  }
-
-
-  const deletemepost = (index) => {
-    const fileList = [...filesSet]
-    fileList.splice(index, 1)
-    SetFileSet(fileList)
+console.log(id,"aaaaaasddddddddddd")
   }
 
 
@@ -307,12 +279,15 @@ function Postjob() {
                     </div>
                     <div className="titles-post">
                       <div className="d-flex flex-column">
-                        {console.log(filesNames, "gopalhuu")}
 
-                        {filesSet?.map((media, index) => {
+                        {mediaArryFile?.map((media, index) => {
                           return (
+                            
                             <div key={index} className="  py-2 w-100 d-flex justify-content-between">
-                              <p className="mb-0 ml-3 fs-5">{media}</p> <div onClick={(e) => deletemepost(index)}><MdDelete /></div>
+                              {console.log(media,"media")}
+                              <p className="mb-0 ml-3 fs-5">{media.filename}</p> <div style={{border:"1px solid red"}} 
+                              onClick={(e) => deletemepost(index, media.mediaID)}
+                              ><MdDelete />asdfgh</div>
                             </div>
                           )
                         })}

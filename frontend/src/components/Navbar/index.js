@@ -23,8 +23,7 @@ let SearchValues = {
   }
 dispatch(jobSearch(SearchValues))
 
-  SearchData?.success === true && navigate("/Search")
-
+  SearchData?.success === true && navigate("/Search") 
 
 }, 700);
 
