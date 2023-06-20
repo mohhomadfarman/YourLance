@@ -7,6 +7,7 @@ const registerRoutes = require("./router/registerRoutes");
 const searchRoutes = require('./router/searchAPI');
 const JobpostApi = require('./router/JobpostApi');
 const FileUploadApi = require('./router/FileUpload');
+const deleteMedia = require('./router/Delete');
 app.use(cors())
 
 const DBLogin =  process.env.DATABASE;
@@ -33,6 +34,7 @@ app.use(require('./router/auth'));
 app.use("/api", registerRoutes);
 app.use("/api", searchRoutes);
 app.use("/api", JobpostApi);
+app.use("/api", deleteMedia);
 // app.use("/api", FileUploadApi);
 
 
