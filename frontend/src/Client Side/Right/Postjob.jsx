@@ -4,19 +4,26 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiCloudUpload } from 'react-icons/bi';
 import Select from "react-select";
-import { useDispatch, useSelector  } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { JobPosting, MediaUploads } from "../../redux/auctions/JobPostingAction";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import jwtDecode from "jwt-decode";
 import GrowExample from "../../components/Form/Isloading";
 import axios from "axios";
+import { MdDelete } from "react-icons/md"
+import { CurrentApi } from "../../config/config";
 function Postjob() {
 
   const dispatch = useDispatch()
+  const [filesSet, SetFileSet] = useState([])
+
+  useEffect(() => {
+
+  })
 
   const userData = jwtDecode(localStorage.getItem("token"))
   const validate = (values) => {
@@ -38,11 +45,11 @@ function Postjob() {
     }
   };
 
-  const isLoading = useSelector((state)=> state?.Jobposting?.isLoading)  
+  const isLoading = useSelector((state) => state?.Jobposting?.isLoading)
 
- 
+
   const mediaArry = []
-const filesNames = []
+  const filesNames = []
   const handleChange = (event, typename, values) => {
     let filedata = {
       types: typename,
@@ -50,18 +57,20 @@ const filesNames = []
 
     if (values[`${typename}id`]) {
       filedata["id"] = values[`${typename}id`];
-    } 
+    }
     const myfilesname = event.target.files[0].name;
-    filesNames.push(myfilesname)
-    console.log(filesNames,"ghjkgfghjk")
+    let x = filesSet
+    x.push(myfilesname)
+    SetFileSet(x)
+    // console.log(filesNames, "ghjkgfghjk")
 
     const file = event.target.files[0];
 
 
     const formData = new FormData();
     formData.append('fileUploadField', file);
-  
-    axios.post("http://localhost:4000/api/upload",formData).then((res)=>{
+
+    axios.post(`${CurrentApi}/api/upload`, formData).then((res) => {
       console.log(res.data.name)
       let mediaList = {
         mediaID: res?.data?._id,
@@ -69,7 +78,7 @@ const filesNames = []
       }
       mediaArry.push(mediaList)
     })
-  console.log(mediaArry) 
+    // console.log(mediaArry,"mediaArry")
 
   };
 
@@ -81,12 +90,12 @@ const filesNames = []
   ];
 
   const colourOptions = [
-    { value: "Web Designing", label: "Web Designing"},
-    { value: "Web Development", label: "Web Development"},
-    { value: "Graphic Designing", label: "Graphic Designing"},
-    { value: "Content Writing", label: "Content Writing"},
+    { value: "Web Designing", label: "Web Designing" },
+    { value: "Web Development", label: "Web Development" },
+    { value: "Graphic Designing", label: "Graphic Designing" },
+    { value: "Content Writing", label: "Content Writing" },
     { value: "Digital Marketing", label: "Digital Marketing" },
-    { value: "Figma Design", label: "Figma Design"},
+    { value: "Figma Design", label: "Figma Design" },
     { value: "Website Design", label: "Website Design" },
     { value: "Reactjs", label: "Reactjs" },
     { value: "React Native", label: "React Native" },
@@ -94,46 +103,69 @@ const filesNames = []
     { value: "Adobe Creative Suit", label: "Adobe Creative Suit" },
     { value: "Adobe Photoshop", label: "Adobe Photoshop" },
     { value: "Adobe illustrator", label: "Adobe illustrator" },
-    { value: "Adobe XD", label: "Adobe XD"},
-    { value: "Corel Draw", label: "Corel Draw"},
+    { value: "Adobe XD", label: "Adobe XD" },
+    { value: "Corel Draw", label: "Corel Draw" },
     { value: "Project Managment", label: "Project Managment" },
     { value: "Data Entry", label: "Data Entry" },
   ];
-  
-  
 
-// const handleFileUpload = (event) => {
-//   const file = event.target.files[0];
-//   const formData = new FormData();
-//   formData.append('fileUploadField', file);
 
-//   axios.post("http://localhost:4000/api/upload",formData).then((res)=>{
-//     console.log(res.data._id)
-//     let mediaList = {
-//       mediaID: res.data._id
-//     }
-//     mediaArry.push(mediaList)
-//   })
-// console.log(mediaArry) 
-// };
 
-const initialValues = {
-  clientname: userData.user.fullname,
-  clientId: userData.user._id,
-  title: "",
-  AddSkills: "",
-  ScopeOfyourWork: "",
-  budget: "",
-  Describe: "",
-  mediaID: mediaArry,
+  // const handleFileUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append('fileUploadField', file);
 
-};
+  //   axios.post("http://localhost:4000/api/upload",formData).then((res)=>{
+  //     console.log(res.data._id)
+  //     let mediaList = {
+  //       mediaID: res.data._id
+  //     }
+  //     mediaArry.push(mediaList)
+  //   })
+  // console.log(mediaArry) 
+  // };
 
-const onSubmit = async (initialValues) => {
-  dispatch(JobPosting(initialValues))
-  console.log(initialValues)
-};
+  const initialValues = {
+    clientname: userData.user.fullname,
+    clientId: userData.user._id,
+    title: "",
+    AddSkills: "",
+    ScopeOfyourWork: "",
+    budget: "",
+    Describe: "",
+    mediaID: mediaArry,
 
+  };
+
+  const onSubmit = async (initialValues) => {
+    dispatch(JobPosting(initialValues))
+    console.log(initialValues)
+  };
+
+
+  // const deleteElementById = (arr, id) => {
+  //   return arr.filter(item => item.id !== id);
+  // };
+
+  //  const =(media)=>{
+
+
+  //  }
+
+
+
+  //   const deletemepost = (filesNames, index) => {
+
+
+  // console.log(index,"hklkjhghjkjghj")  }
+
+
+  const deletemepost = (index) => {
+    const fileList = [...filesSet]
+    fileList.splice(index, 1)
+    SetFileSet(fileList)
+  }
 
 
 
@@ -141,12 +173,11 @@ const onSubmit = async (initialValues) => {
     <>
       <Navbar />
       <Container>
-        {isLoading && (<GrowExample/>)}
+        {isLoading && (<GrowExample />)}
         <Row style={{ justifyContent: "center", marginBottom: "48px" }}>
           <Col md={8} >
             <div>
               <Form
-              
                 onSubmit={onSubmit}
                 initialValues={initialValues}
                 validate={validate}
@@ -157,7 +188,7 @@ const onSubmit = async (initialValues) => {
                   pristine,
                   values,
                 }) => (
-                  <form  className="Post-JobDiv" onSubmit={handleSubmit}>
+                  <form className="Post-JobDiv" onSubmit={handleSubmit}>
                     <div>
                       <h1>Get started</h1>
                       <div>
@@ -242,29 +273,14 @@ const onSubmit = async (initialValues) => {
                       />
                     </div>
                     <div className="titles-post">
-                    <Field name="PostAttachment" >
-                    {({ input: { onChange, ...input }, meta }) => (
-                      <label htmlFor="fileUpload" className="uploadinput m-0" data-text={"Upload"
-                             } >
-                        <BiCloudUpload size={35} />
-                        
-                          {/* {({ input: { value, onChange, ...input } }) => (
-                        <input
-                        className="w-100"
-                          {...input}
-                          type="file"
-                          onChange={({ target }) => {
-                            let uniqueId = Date.now();
-                            const filename =
-                              uniqueId + "_" + target.files[0].name;
-                            let file = new File(target.files, filename);
-                            console.log(file,"dfghjfygfd")
-                            // setFile(file);
-                          }} 
-                        />
-                      )} */}
-                      {/* {console.log(values,"ertuiutfdfgutfd")} */}
-                        
+                      <Field name="PostAttachment" >
+                        {({ input: { onChange, ...input }, meta }) => (
+                          <label htmlFor="fileUpload" className="uploadinput m-0" data-text={"Upload"
+                          } >
+                            <BiCloudUpload size={35} />
+
+
+
 
                             <input
                               multiple="multiple"
@@ -278,52 +294,55 @@ const onSubmit = async (initialValues) => {
                                 onChange(e);
                                 handleChange(e, "PostAttachment", values);
                               }}
-               
+
 
 
                             />
-                          
 
-                      </label>
-                         )}
+
+                          </label>
+                        )}
 
                       </Field>
                     </div>
                     <div className="titles-post">
-                      <div  className="d-flex flex-column"> 
-                      {filesNames?.map((media, index)=>{
-                         return( 
-                         <div key={index}  className="  py-2 w-100">
-                         <p className="mb-0 ml-3 fs-5">{media}</p>
-                         </div>
-                         )
-                       })}
-                      </div>
-                      </div>
-                   <div className="d-flex gap-3">
-                   <div className="post-buttons">
-                      <button
-                        className=""
-                        type="submit"
-                        disabled={submitting}
-                      >
-                        Post a Job
-                      </button>
+                      <div className="d-flex flex-column">
+                        {console.log(filesNames, "gopalhuu")}
 
+                        {filesSet?.map((media, index) => {
+                          return (
+                            <div key={index} className="  py-2 w-100 d-flex justify-content-between">
+                              <p className="mb-0 ml-3 fs-5">{media}</p> <div onClick={(e) => deletemepost(index)}><MdDelete /></div>
+                            </div>
+                          )
+                        })}
+                      </div>
                     </div>
-                    <Link to={`/client`} className="post-buttons btn-red">
-                      <button
-                        className=""
-                        type="submit"
-                        disabled={submitting}
-                      >
-                        Cancel
-                      </button>
 
-                    </Link>
-                   </div>
-                  
-                   
+                    <div className="d-flex gap-3">
+                      <div className="post-buttons">
+                        <button
+                          className=""
+                          type="submit"
+                          disabled={submitting}
+                        >
+                          Post a Job
+                        </button>
+
+                      </div>
+                      <Link to={`/client`} className="post-buttons btn-red">
+                        <button
+                          className=""
+                          type="submit"
+                          disabled={submitting}
+                        >
+                          Cancel
+                        </button>
+
+                      </Link>
+                    </div>
+
+
                   </form>
 
 
