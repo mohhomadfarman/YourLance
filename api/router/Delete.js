@@ -6,7 +6,7 @@ const { upload } = require("../middelwaer/diskStorage");
 const felete = require("../controllers/DeleteMedia");
 
 
-router.post('/api/delete', felete)
+router.post('/delete', felete)
 module.exports = router;
 
  
