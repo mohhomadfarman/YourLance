@@ -3,7 +3,6 @@ import { Form, Field } from "react-final-form";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
 import React, { useEffect, useState } from "react";
 import { BiCloudUpload } from 'react-icons/bi';
 import Select from "react-select";
@@ -13,12 +12,9 @@ import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import jwtDecode from "jwt-decode";
 import GrowExample from "../../components/Form/Isloading";
-import axios from "axios";
 import { MdDelete } from "react-icons/md"
-import { CurrentApi } from "../../config/config";
 
-import LoadingBar from "react-top-loading-bar"
-import { ProgressBar } from "react-bootstrap";
+import {  Spinner } from "react-bootstrap";
 function Postjob() {
 
   const dispatch = useDispatch()
@@ -34,7 +30,6 @@ function Postjob() {
 
 
   useEffect(()=>{
-    setProgress(0)
 setTimeout(()=>{
   setProgress(isLoadings ? true : false)
 },1000)
@@ -299,7 +294,6 @@ setTimeout(()=>{
 
                             />
 
-                           {mediaArryFile[0]?.filename && isLoadings &&  <ProgressBar animated className="w-100" now={progress} />}
                           </label>
                         )}
 
@@ -313,19 +307,20 @@ setTimeout(()=>{
 
                             <div key={index} className="  py-2 w-100 d-flex justify-content-between position-relative">
                               {console.log(media, "media")}
-                              <p className="mb-0 ml-3 fs-5">{media.filename}</p> <div style={{ border: "1px solid red" }}
+                              <p className="mb-0 ml-3 fs-5">{media.filename}</p> <div 
                                 onClick={(e) => deletemepost(index, media.mediaID)}
-                              ><MdDelete />asdfgh</div>
+                              >
+                                <MdDelete size={30} color="red" />
+                              {/* <RxCross1 size={30} color="red"/> */}
+                              </div>
                               {/* {isLoadingpdf ===true?(
                                 <ProgressBar animated className="w-100" now={100} />
-                              
-                                
+                                //  <BsFillPatchCheckFill size={40} color="green"/>
                               )} */}
-                              
-                             
+                                {media.filename && isLoadings ? <Spinner className="uploadMedia" animation="border" variant="success" /> : ""} 
 
-
-
+                              {/* <CircleIndicator progress={0.3} size={100} fill={"red"}  /> */}
+                              {/* <BarIndicator progress={isLoadings ? 1 : 0 } width={100}  fill={"red"} /> */}
                             </div>
 
 
@@ -333,6 +328,7 @@ setTimeout(()=>{
 
                           )
                         })}
+                       
                       </div>
                     </div>
 

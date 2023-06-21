@@ -384,3 +384,8 @@ margin-top: 45px;
   color: #0B9E2C;
   text-transform: capitalize;
 }
+.uploadMedia
+{
+  width: 30px;
+  height: 30px;
+}
