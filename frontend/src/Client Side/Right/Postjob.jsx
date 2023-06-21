@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import { BiCloudUpload } from 'react-icons/bi';
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
-import { JobPosting, MediaUploads } from "../../redux/auctions/JobPostingAction";
+import { JobPosting, MediaUploads, pdfofjob } from "../../redux/auctions/JobPostingAction";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import jwtDecode from "jwt-decode";
@@ -16,16 +16,29 @@ import GrowExample from "../../components/Form/Isloading";
 import axios from "axios";
 import { MdDelete } from "react-icons/md"
 import { CurrentApi } from "../../config/config";
+
+import LoadingBar from "react-top-loading-bar"
+import { ProgressBar } from "react-bootstrap";
 function Postjob() {
 
   const dispatch = useDispatch()
+
+
+  const [progress, setProgress] = useState(0);
   // const [filesSet, SetFileSet] = useState([])
   const [mediaArryFile, SetMediaArryFile] = useState([])
 
-  useEffect(() => {
+  const isUploading = useSelector((state) => state?.mediaUpload?.isUploading)
+  const isLoadings = useSelector((state) => state?.mediaUpload?.isLoading)
+  // console.log(isLoadingpdf, "ggggggggggggggggggggggggg")
 
-  })
 
+  useEffect(()=>{
+    setProgress(0)
+setTimeout(()=>{
+  setProgress(isLoadings ? true : false)
+},1000)
+  },[])
   const userData = jwtDecode(localStorage.getItem("token"))
   const validate = (values) => {
     let errors = {};
@@ -66,23 +79,40 @@ function Postjob() {
 
     const formData = new FormData();
     formData.append('fileUploadField', file);
+    dispatch(MediaUploads(formData)).then((res) => {
 
-    axios.post(`${CurrentApi}/api/upload`, formData).then((res) => {
-      console.log(res.data.name)
       let mediaList = {
-        mediaID: res?.data?._id,
-        filename: res?.data?.name
+        mediaID: res?.payload?._id,
+        filename: res?.payload?.name,
       }
       mediaArry.push(mediaList)
 
-    let a = [...mediaArryFile]
-    a.push(mediaList)
-    SetMediaArryFile(a)
-    console.log(a,"mediaArry")
+      let a = [...mediaArryFile]
+      a.push(mediaList)
+      SetMediaArryFile(a)
+      console.log(a, "mediaArry")
 
-    })
+    }
+
+    )
+    // axios.post(`${CurrentApi}/api/upload`, formData).then((res) => {
+    //   console.log(res.data.name)
+    //   let mediaList = {
+    //     mediaID: res?.data?._id,
+    //     filename: res?.data?.name
+    //   }
+    //   mediaArry.push(mediaList)
+
+    //   let a = [...mediaArryFile]
+    //   a.push(mediaList)
+    //   SetMediaArryFile(a)
+    //   console.log(a, "mediaArry")
+
+    // })
 
   };
+
+
 
 
   const scopework = [
@@ -131,12 +161,13 @@ function Postjob() {
 
 
 
-  const deletemepost = (index,id) => {
+  const deletemepost = (index, id) => {
     const FileDelete = [...mediaArryFile]
     FileDelete.splice(index, 1)
     SetMediaArryFile(FileDelete)
 
-console.log(id,"aaaaaasddddddddddd")
+    console.log(id, "aaaaaasddddddddddd")
+    dispatch(pdfofjob({ id: id }))
   }
 
 
@@ -251,9 +282,6 @@ console.log(id,"aaaaaasddddddddddd")
                           } >
                             <BiCloudUpload size={35} />
 
-
-
-
                             <input
                               multiple="multiple"
                               id="fileUpload"
@@ -271,7 +299,7 @@ console.log(id,"aaaaaasddddddddddd")
 
                             />
 
-
+                           {mediaArryFile[0]?.filename && isLoadings &&  <ProgressBar animated className="w-100" now={progress} />}
                           </label>
                         )}
 
@@ -282,13 +310,27 @@ console.log(id,"aaaaaasddddddddddd")
 
                         {mediaArryFile?.map((media, index) => {
                           return (
-                            
-                            <div key={index} className="  py-2 w-100 d-flex justify-content-between">
-                              {console.log(media,"media")}
-                              <p className="mb-0 ml-3 fs-5">{media.filename}</p> <div style={{border:"1px solid red"}} 
-                              onClick={(e) => deletemepost(index, media.mediaID)}
+
+                            <div key={index} className="  py-2 w-100 d-flex justify-content-between position-relative">
+                              {console.log(media, "media")}
+                              <p className="mb-0 ml-3 fs-5">{media.filename}</p> <div style={{ border: "1px solid red" }}
+                                onClick={(e) => deletemepost(index, media.mediaID)}
                               ><MdDelete />asdfgh</div>
+                              {/* {isLoadingpdf ===true?(
+                                <ProgressBar animated className="w-100" now={100} />
+                              
+                                
+                              )} */}
+                              
+                             
+
+
+
                             </div>
+
+
+
+
                           )
                         })}
                       </div>
