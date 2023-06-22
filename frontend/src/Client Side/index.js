@@ -1,20 +1,17 @@
 import React, { useEffect } from "react";
-import Navbar from "../components/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
 import LeftSide from "./Left";
 import { useDispatch, useSelector } from "react-redux";
 import RightSide from "./Right";
 import { getUserDetails } from "../redux/auctions/userLogin";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import GrowExample from "../components/Form/Isloading";
 import { JobdataD } from "../redux/auctions/JobPostingAction";
-import OptionMenu from "../img/OptionMenu.svg";
 
 import jwtDecode from "jwt-decode";
 
 function ClientDashboard() {
   const dispatch = useDispatch();
-  const searchParams = useParams();
 
   const userData = jwtDecode(localStorage.getItem("token"))
   const dataID = {
@@ -58,7 +55,7 @@ function ClientDashboard() {
              </div>
            </Col>
            <Col md={7} className="offset-md-1">
-             <LeftSide  Id={searchParams.id} client={true} />
+             <LeftSide   client={true} />
            </Col>
            <Col md={4}>
              <RightSide username={data?.fullname} button="Post a Job" />

@@ -42,9 +42,8 @@ router.post("/api/job-listing", async (req, res) => {
 
 });
 
-router.post("/usersDetails", async (req, res) => {
-  const { id } = req.body;
-  const findResult = await User.find({ _id : id });
+router.get("/api/jobs-listings", async (req, res) => {
+  const findResult = await JobPosting.find();
   console.log(findResult);
   res.send(findResult);
 });

@@ -8,6 +8,7 @@ export const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
 export const axiosInstances = axios.create({
   baseURL: CurrentApi,
   headers: {
@@ -25,14 +26,14 @@ export const JobdataD = createAsyncThunk("JobdataD", async (payload) => {
   return response.data;
 });
 export const MediaUploads = createAsyncThunk("mediaUplad", async (payload) => {
-  const response = await axiosInstances.post(`api/upload`, payload);
+  const response = await axios.post(`${CurrentApi}/api/upload`, payload);
   return response.data;
 });
 export const jobSearch = createAsyncThunk("Search", async (payload) => {
   const response = await axiosInstance.post(`api/search`, payload);
   return response.data;
 });
-// export const jobsearch = createAsyncThunk("jobsearch", async (payload) => {
-//   const response = await axiosInstance.get(`api/search`, payload);
-//   return response.data;
-// });
+export const pdfofjob = createAsyncThunk("pdfofjob", async (payload) => {
+  const response = await axiosInstance.post(`api/delete`, payload);
+  return response.data;
+});
