@@ -3,6 +3,8 @@ import OptionMenu from "../../img/OptionMenu.svg";
 import { useSelector } from "react-redux";
 import GrowExample from "../../components/Form/Isloading";
 
+import AdminSide from "./Admintab";
+
 function LeftSide(props) {
   const [client, setClient] = useState();
   const [admin, setAdmin] = useState();
@@ -27,14 +29,14 @@ function LeftSide(props) {
     }
   }, []);
 
-  
+
 
   return (
     <>
       <div className="main-container">
         {client === true ? (
           <>
-            {isLoading === true  ? (
+            {isLoading === true ? (
               <GrowExample />
             ) : (
               ""
@@ -45,7 +47,7 @@ function LeftSide(props) {
               <span>See All The Posting</span>
             </div>
 
-            {jobPostdata.slice(0, 3).map((items,index) => {
+            {jobPostdata.slice(0, 3).map((items, index) => {
               return items.error ? (
                 <p>Do Your First Job Post</p>
               ) : (
@@ -62,13 +64,14 @@ function LeftSide(props) {
             })}
           </>
         ) : admin === true ? (
-          <div>
-            <p>All Jobs Listings Admin</p>
+          < div >
+            <h1>All Jobs Listings Admin</h1>
+            <AdminSide />
           </div>
         ) : (
           ""
         )}
-      </div>
+      </div >
     </>
   );
 }

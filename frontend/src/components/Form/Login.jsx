@@ -15,8 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import RegisterImage from "../../img/Register.jpg";
 import { loginApi } from "../../redux/auctions/userLogin";
 import GrowExample from "./Isloading";
-import { getToken, getUserId } from "../../utils/auth";
 import jwtDecode from "jwt-decode";
+import { getUserId } from "../../utils/auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -41,6 +41,7 @@ export default function Login() {
 
 
   
+  const role = getUserId() ? getUserId()?.user?.role : null;
 
   const LoginBUtton = async () => {
     setStatus(email === "" && password === "" ? false : true);
@@ -50,13 +51,17 @@ export default function Login() {
       status: status,
     };
 
+
     dispatch(loginApi(dataSend)).then((response) => {
       setGetData(response);
       token !== undefined ? localStorage.setItem('token',  token): localStorage.clear()
         
           if(!isLoading){
-               if(token){
+               if(token && role==="client" ){
                 window.location.href = `/client`;
+              }else if(token && role==="admin"){
+                window.location.href = `/admin`;
+
               }
           }
           

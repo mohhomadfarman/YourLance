@@ -7,7 +7,7 @@ import MediaUploadReducer from "./reducer/MediaUpload";
 import jobsearchfetch from "./reducer/jobFetch";
 import SearchJobsDataReducer from "./reducer/SearchJobsData";
 import jobpdfsliceReducer from "./reducer/deletepdf";
-
+import AllJobListingsReducer from "./reducer/Alljoblisting"
 
 const store = configureStore({
   reducer: {
@@ -19,6 +19,7 @@ const store = configureStore({
     mediaUpload: MediaUploadReducer,
     jobSearch: SearchJobsDataReducer,
     Pdfdata:jobpdfsliceReducer,
+    Joblist:AllJobListingsReducer,
   },
 });
 

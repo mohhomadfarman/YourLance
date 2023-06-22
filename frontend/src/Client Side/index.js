@@ -6,9 +6,11 @@ import RightSide from "./Right";
 import { getUserDetails } from "../redux/auctions/userLogin";
 import { Link } from "react-router-dom";
 import GrowExample from "../components/Form/Isloading";
-import { JobdataD } from "../redux/auctions/JobPostingAction";
+import { JobdataD, allJoblsit } from "../redux/auctions/JobPostingAction";
 
 import jwtDecode from "jwt-decode";
+import { getUserId } from "../utils/auth";
+import { list } from "@chakra-ui/react";
 
 function ClientDashboard() {
   const dispatch = useDispatch();
@@ -21,12 +23,18 @@ function ClientDashboard() {
     id: userData.user._id,
   };
 
+  const role = getUserId() ? getUserId()?.user?.role : null;
 
   useEffect(() => {
-    dispatch(getUserDetails(dataID));
-    dispatch(JobdataD(ListingData));
+    if(role === "client"){
+      dispatch(JobdataD(ListingData));
+      dispatch(getUserDetails(dataID));
+    }else if(role === "admin"){
+   dispatch(allJoblsit())
+    }
 
   }, []);
+
 
   const data = useSelector((state) => state?.userList?.DataList[0]);
   const isLoading = useSelector((state) => state?.jobSearch?.isLoading);
@@ -48,20 +56,19 @@ function ClientDashboard() {
                  <p>{data?.fullname}</p>
                </div>
                <div>
-                 <Link to={`/post-job`}>
+               {role === "client" ? (  <Link to={`/post-job`}>
                    <button className="Right-GreenBTn">Post a job</button>
-                 </Link>
+                 </Link>) :""}
+               
                </div>
              </div>
            </Col>
            <Col md={7} className="offset-md-1">
-             <LeftSide   client={true} />
+           <LeftSide   admin={role === "admin" ? true : false}  client={role === "client" ? true : false} />
            </Col>
            <Col md={4}>
              <RightSide username={data?.fullname} button="Post a Job" />
            </Col>
-          
-
          </Row>
        </Container>
       

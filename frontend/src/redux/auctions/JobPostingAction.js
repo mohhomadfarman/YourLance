@@ -37,3 +37,7 @@ export const pdfofjob = createAsyncThunk("pdfofjob", async (payload) => {
   const response = await axiosInstance.post(`api/delete`, payload);
   return response.data;
 });
+export const allJoblsit = createAsyncThunk("allJoblsit", async (payload) => {
+  const response = await axiosInstance.get(`api/jobs-listings`, payload);
+  return response.data;
+});
