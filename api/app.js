@@ -13,20 +13,19 @@ app.use(cors())
 const DBLogin =  process.env.DATABASE;
 
 
-
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 dotenv.config();
 
+mongoose.connect(DBLogin, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
 
-const DB = DBLogin // Replace with your MongoDB connection URL
-mongoose.connect(DB, {
 
-
-}).then(() => {
-    console.log("connected")
-}).catch((err) => console.log("not connect"))
 
 
 app.use(require('./router/auth'));
